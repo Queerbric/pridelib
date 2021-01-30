@@ -1,40 +1,52 @@
 package io.github.queerbric.pride;
 
-import net.minecraft.util.math.MathHelper;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
+import it.unimi.dsi.fastutil.ints.IntLists;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.Identifier;
 
 public class PrideFlag {
 	private String id;
-	private String shape;
-	private int[] colors;
+	private PrideFlagShape shape;
+	private IntList colors;
 
-	public PrideFlag(String id, Builder builder) {
+	protected PrideFlag(String id, Properties props) {
 		this.id = id;
-		if (builder.shape == null) {
-			shape = "stripes";
+		Identifier shapeId;
+		if (props.shape == null) {
+			shapeId = new Identifier("pride", "horizontal_stripes");
 		} else {
-			this.shape = builder.shape;
+			shapeId = props.shape.contains(":") ? Identifier.tryParse(props.shape) : new Identifier("pride", props.shape);
 		}
-		colors = new int[builder.colors.length];
-		for (int i = 0; i < builder.colors.length; i++) {
-			String bc = builder.colors[i];
-			colors[i] = MathHelper.packRgb(Integer.parseInt(bc.substring(1, 3), 16), Integer.parseInt(bc.substring(3, 5), 16),
-				Integer.parseInt(bc.substring(5, 7), 16));
+		shape = PrideFlagShapes.get(shapeId);
+		if (shape == null) {
+			throw new IllegalArgumentException("Unknown pride flag shape "+shapeId);
 		}
+		IntArrayList colorsTmp = new IntArrayList(props.colors.length);
+		for (String color : props.colors) {
+			colorsTmp.add(Integer.parseInt(color.substring(1), 16)|0xFF000000);
+		}
+		colors = IntLists.unmodifiable(colorsTmp);
 	}
 
 	public String getId() {
 		return id;
 	}
 
-	public String getShape() {
+	public PrideFlagShape getShape() {
 		return shape;
 	}
 	
-	public int[] getColors() {
+	public IntList getColors() {
 		return colors;
 	}
 	
-	class Builder {
+	public void render(MatrixStack matrices, float x, float y, float width, float height) {
+		shape.render(colors, matrices, x, y, width, height);
+	}
+	
+	class Properties {
 		public String shape;
 		public String[] colors;
 	}

@@ -14,10 +14,10 @@ dependencies {
 ```
 
 ## Adding Flags
-Flags are json files located at `assets/[namespace]/flags/[name].json`. The namespace is unimportant, the name of the file is its ID, and only one of each ID will be loaded. Flags have a shape (which if omitted will default to `stripes`) and a set of colors. The following example is the trans flag.
+Flags are json files located at `assets/[namespace]/flags/[name].json`. The namespace is unimportant, the name of the file is its ID, and only one of each ID will be loaded. Flags have a shape (which if omitted will default to `pride:horizontal_stripes`) and a set of colors. The following example is the trans flag.
 ```json
 {
-	"shape": "stripes",
+	"shape": "horizontal_stripes",
 	"colors": [
 		"#55cdfc",
 		"#f7a8b8",
@@ -33,7 +33,7 @@ Sometimes you don't actually want all of the available flags to be used in game.
 ```json
 {
 	"flags": [
-		"trans"
+		"transgender"
 	]
 }
 ```
@@ -43,13 +43,55 @@ In order to provide a small amount of structure, PrideLib comes bundled with a s
 
 | ID | Description |
 | --- | --- |
-| `ace` | Asexual pride |
-| `bi` | Bisexual pride |
+| `asexual` | Asexual pride |
+| `bisexual` | Bisexual pride |
+| `intersex` | Intersex pride |
 | `lesbian` | Lesbian pride |
 | `nonbinary` | Non-binary pride |
-| `pan` | Pansexual pride |
+| `pansexual` | Pansexual pride |
 | `rainbow` | Rainbow/queer/gay/umbrella pride |
-| `trans` | Transgender pride |
+| `transgender` | Transgender pride |
 
 ## Using in Code
-Flags can be obtained from the class `PrideFlags`, it also provides helper methods for selecting a random flag.
+Flags can be obtained from the class `PrideFlags`, it also provides helper methods for selecting a random flag. The returned `PrideFlag` type also offers a `render` method for quick 2D rendering in a GUI or similar. For more complex usage, you can retrieve the raw data. **Note that if no flags are available for whatever reason, getRandomFlag will return `null`**.
+
+Since you may particularly want to make use of this library during Pride Month (i.e. June), there is also a utility method offered in `PrideFlags`: `isPrideMonth`. This also checks for a system property, `everyMonthIsPrideMonth`, which if it is set to `true` the method will always return `true`. You can do this by adding this to your JVM arguments: `-DeveryMonthIsPrideMonth=true`
+
+## Built-in Flag Shapes
+The following flag shapes are built-in to PrideLib. Any mod can contribute additional shapes by registering them with `PrideFlagShapes`.
+
+## horizontal_stripes
+A basic flag consisting of an arbitrary number of equally-sized colored stripes. Each color is a stripe. The first color is the top stripe, the last is the bottom stripe.
+
+You can accomplish non-equally-sized stripes by repeating the same color multiple times.
+
+Examples: rainbow flag, trans flag, pan flag, nonbinary flag, many more
+
+## vertical_stripes
+A basic flag consisting of an arbitrary number of equally-sized colored stripes. Each color is a stripe. The first color is the left stripe, the last is the right stripe.
+
+You can accomplish non-equally-sized stripes by repeating the same color multiple times.
+
+Examples: androgynous flag (not built-in)
+
+## circle
+A flag with a solid background and a hollow circle in the foreground. The first color is the background, the second color is the color of the circle. Additional colors are ignored.
+
+Examples: intersex flag
+
+## arrow
+A flag with a triangle pointing to the right on the left side of the flag. The first color is the color of the triangle, the rest are treated as in horizontal_stripes and make up the background.
+
+Examples: demisexual flag (not built-in)
+
+## progress
+Something very close to the "Progress" pride flag design. Hardcoded due to its unique shape; ignores all colors.
+
+Not provided by any built-in flags; you can add this JSON file to provide it:
+
+```json
+{
+	"shape": "progress",
+	"colors": []
+}
+```
