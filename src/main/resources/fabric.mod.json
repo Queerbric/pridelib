@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "pride",
+  "version": "${version}",
+  "name": "Pride Lib",
+  "description": "A unified library for data-driven flags",
+  "authors": [
+    "Emi"
+  ],
+  "contributors": [],
+  "contact": {},
+  "license": "MIT",
+  "icon": "assets/pride/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [],
+    "client": [
+      "io.github.queerbric.pride.PrideClient"
+    ],
+    "server": []
+  },
+  "mixins": [
+    "pride.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.11.1",
+    "fabric": "*"
+  }
+}
