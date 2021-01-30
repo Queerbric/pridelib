@@ -57,6 +57,7 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 			try {
 				InputStreamReader reader = new InputStreamReader(manager.getResource(id).getInputStream());
 				PrideFlag.Builder builder = GSON.fromJson(reader, PrideFlag.Builder.class);
+				reader.close();
 				for (String color : builder.colors) {
 					if (!color.matches("#[0-9a-fA-F]{6}")) {
 						System.err.println("[pride] Malformed flag data for flag " + name + ", " + color
@@ -76,6 +77,7 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 			try {
 				InputStreamReader reader = new FileReader(f);
 				Config config = GSON.fromJson(reader, Config.class);
+				reader.close();
 				if (config.flags != null) {
 					List<String> list = Arrays.asList(config.flags);
 					flags.removeIf(flag -> !list.contains(flag.getId()));
@@ -89,6 +91,7 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 				try {
 					InputStreamReader reader = new InputStreamReader(manager.getResource(id).getInputStream());
 					Config config = GSON.fromJson(reader, Config.class);
+					reader.close();
 					if (config.flags != null) {
 						List<String> list = Arrays.asList(config.flags);
 						flags.removeIf(flag -> !list.contains(flag.getId()));
