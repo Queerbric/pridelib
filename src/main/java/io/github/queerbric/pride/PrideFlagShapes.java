@@ -122,7 +122,7 @@ public class PrideFlagShapes {
 				RenderSystem.enableTexture();
 			}
 		});
-		register(new Identifier("pride", "arrow_rightward"), new PrideFlagShape() {
+		register(new Identifier("pride", "arrow"), new PrideFlagShape() {
 			@Override
 			public void render(IntList colors, MatrixStack matrices, float x, float y, float w, float h) {
 				float s = Math.min(w, h)/2;
