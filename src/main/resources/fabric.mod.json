@@ -24,6 +24,6 @@
   ],
   "depends": {
     "fabricloader": ">=0.11.1",
-    "fabric": "*"
+    "fabric-resource-loader-v0": "*"
   }
 }
