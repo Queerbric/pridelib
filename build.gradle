@@ -3,12 +3,17 @@ plugins {
 	id 'maven-publish'
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
-
 archivesBaseName = project.archives_base_name
-version = project.mod_version
+version = "${project.mod_version}+${getMCVersionString()}"
 group = project.maven_group
+
+def getMCVersionString() {
+	if (project.minecraft_version.matches("\\d\\dw\\d\\d[a-z]")) {
+		return project.minecraft_version
+	}
+	int lastDot = project.minecraft_version.lastIndexOf('.')
+	return project.minecraft_version.substring(0, lastDot)
+}
 
 minecraft {
 }
@@ -19,7 +24,7 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+	modImplementation fabricApi.module('fabric-resource-loader-v0', project.fabric_api_version)
 }
 
 processResources {
@@ -42,12 +47,11 @@ tasks.withType(JavaCompile) {
 	options.encoding = "UTF-8"
 }
 
-// Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-// if it is present.
-// If you remove this task, sources will not be generated.
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
-	from sourceSets.main.allSource
+java {
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
+
+	withSourcesJar()
 }
 
 jar {

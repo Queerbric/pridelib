@@ -10,7 +10,7 @@ public class PrideClient implements ClientModInitializer {
 	public void onInitializeClient() {
 		MinecraftClient.getInstance().execute(() -> {
 			PrideLoader.firstLoad();
-			((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerListener(new PrideLoader());		
+			((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerListener(new PrideLoader());
 		});
 	}
 }
