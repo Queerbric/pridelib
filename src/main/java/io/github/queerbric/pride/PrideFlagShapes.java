@@ -3,7 +3,7 @@ package io.github.queerbric.pride;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.render.VertexFormat;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 
@@ -41,7 +41,7 @@ public class PrideFlagShapes {
 				Matrix4f mat = matrices.peek().getModel();
 				Tessellator t = Tessellator.getInstance();
 				BufferBuilder bb = t.getBuffer();
-				bb.begin(GL11.GL_QUADS, VertexFormats.POSITION_COLOR);
+				bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 				for (int i = 0; i < colors.size(); i++) {
 					int color = colors.getInt(i);
 					float r = ((color >> 16)&0xFF)/255f;
@@ -66,7 +66,7 @@ public class PrideFlagShapes {
 				Matrix4f mat = matrices.peek().getModel();
 				Tessellator t = Tessellator.getInstance();
 				BufferBuilder bb = t.getBuffer();
-				bb.begin(GL11.GL_QUADS, VertexFormats.POSITION_COLOR);
+				bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 				for (int i = 0; i < colors.size(); i++) {
 					int color = colors.getInt(i);
 					float r = ((color >> 16)&0xFF)/255f;
@@ -94,14 +94,14 @@ public class PrideFlagShapes {
 					float r = ((color >> 16)&0xFF)/255f;
 					float g = ((color >>  8)&0xFF)/255f;
 					float b = ((color >>  0)&0xFF)/255f;
-					bb.begin(GL11.GL_QUADS, VertexFormats.POSITION_COLOR);
+					bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 					bb.vertex(mat, x  , y+h, 0).color(r, g, b, 1).next();
 					bb.vertex(mat, x+w, y+h, 0).color(r, g, b, 1).next();
 					bb.vertex(mat, x+w, y  , 0).color(r, g, b, 1).next();
 					bb.vertex(mat, x  , y  , 0).color(r, g, b, 1).next();
 					tess.draw();
 				}
-				bb.begin(GL11.GL_TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+				bb.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
 				float br = Math.min(w, h)*0.3f;
 				float cx = x+(w/2);
 				float cy = y+(h/2);
@@ -132,7 +132,7 @@ public class PrideFlagShapes {
 				Matrix4f mat = matrices.peek().getModel();
 				Tessellator t = Tessellator.getInstance();
 				BufferBuilder bb = t.getBuffer();
-				bb.begin(GL11.GL_TRIANGLES, VertexFormats.POSITION_COLOR);
+				bb.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
 				int color = colors.getInt(0);
 				float r = ((color >> 16)&0xFF)/255f;
 				float g = ((color >>  8)&0xFF)/255f;
@@ -163,7 +163,7 @@ public class PrideFlagShapes {
 				BufferBuilder bb = t.getBuffer();
 				horzStripes.render(progressBg, matrices, x, y, w, h);
 				RenderSystem.disableTexture();
-				bb.begin(GL11.GL_TRIANGLES, VertexFormats.POSITION_COLOR);
+				bb.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
 				int[] triangleColors = {
 						0x000000,
 						0x603813,
