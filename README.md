@@ -5,11 +5,11 @@ PrideLib is a small JIJ dependency for modders who want to use a centralized dat
 ```gradle
 repositories {
 	maven {
-		url = "https://jitpack.io"
+		url 'https://maven.gegy.dev'
 	}
 }
 dependencies {
-	modImplementation include("com.github.queerbric:pridelib:${pridelib_version}")
+	modImplementation include("io.github.queerbric:pridelib:${pridelib_version}")
 }
 ```
 
