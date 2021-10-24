@@ -13,15 +13,10 @@
   "icon": "assets/pride/icon.png",
   "environment": "*",
   "entrypoints": {
-    "main": [],
     "client": [
       "io.github.queerbric.pride.PrideClient"
-    ],
-    "server": []
+    ]
   },
-  "mixins": [
-    "pride.mixins.json"
-  ],
   "depends": {
     "minecraft": ">=1.17-alpha.21.3.a",
     "fabricloader": ">=0.11.1",
