@@ -1,38 +1,32 @@
 package io.github.queerbric.pride;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
-
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.*;
 
 public class PrideFlags {
 	private static List<PrideFlag> flags = new ArrayList<>();
-	private static Map<String, PrideFlag> flagsById = new HashMap<>();
-	private static Random defaultRandom = new Random();
-	
+	private static Map<String, PrideFlag> flagsById = new Object2ObjectOpenHashMap<>();
+	private static final Random DEFAULT_RANDOM = new Random();
+
 	// use Locale.ENGLISH to ensure we get a Gregorian calendar
 	private static final boolean PRIDE_MONTH = Calendar.getInstance(Locale.ENGLISH).get(Calendar.MONTH) == Calendar.JUNE
 			|| Boolean.getBoolean("everyMonthIsPrideMonth");
 
 	protected static void setFlags(List<PrideFlag> flags) {
 		PrideFlags.flags = Collections.unmodifiableList(flags);
-		Map<String, PrideFlag> bldr = new HashMap<>(flags.size());
-		for (PrideFlag flag : flags) {
-			bldr.put(flag.getId(), flag);
+		var flagsById = new Object2ObjectOpenHashMap<String, PrideFlag>(flags.size());
+		for (var flag : flags) {
+			flagsById.put(flag.getId(), flag);
 		}
-		flagsById = Collections.unmodifiableMap(bldr);
+		PrideFlags.flagsById = Collections.unmodifiableMap(flagsById);
 	}
 
 	public static List<PrideFlag> getFlags() {
 		return flags;
 	}
-	
+
 	public static @Nullable PrideFlag getFlag(String id) {
 		return flagsById.get(id);
 	}
@@ -43,9 +37,9 @@ public class PrideFlags {
 	}
 
 	public static @Nullable PrideFlag getRandomFlag() {
-		return getRandomFlag(defaultRandom);
+		return getRandomFlag(DEFAULT_RANDOM);
 	}
-	
+
 	public static boolean isPrideMonth() {
 		return PRIDE_MONTH;
 	}

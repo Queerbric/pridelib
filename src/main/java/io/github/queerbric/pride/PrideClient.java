@@ -1,16 +1,12 @@
 package io.github.queerbric.pride;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.ReloadableResourceManager;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.resource.ResourceType;
 
 public class PrideClient implements ClientModInitializer {
-
 	@Override
 	public void onInitializeClient() {
-		MinecraftClient.getInstance().execute(() -> {
-			PrideLoader.firstLoad();
-			((ReloadableResourceManager) MinecraftClient.getInstance().getResourceManager()).registerListener(new PrideLoader());
-		});
+		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new PrideLoader());
 	}
 }

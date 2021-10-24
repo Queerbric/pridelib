@@ -9,7 +9,7 @@ repositories {
 	}
 }
 dependencies {
-	modCompile include("com.github.queerbric:pridelib:${pridelib_version}")
+	modImplementation include("com.github.queerbric:pridelib:${pridelib_version}")
 }
 ```
 
