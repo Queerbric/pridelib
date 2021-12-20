@@ -21,5 +21,10 @@
     "minecraft": ">=1.17-alpha.21.3.a",
     "fabricloader": ">=0.11.1",
     "fabric-resource-loader-v0": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "badges": [ "library" ]
+    }
   }
 }
