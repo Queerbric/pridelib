@@ -23,8 +23,8 @@ public class PrideFlag {
 			shapeId = props.shape.contains(":") ? Identifier.tryParse(props.shape) : new Identifier("pride", props.shape);
 		}
 
-		shape = PrideFlagShapes.get(shapeId);
-		if (shape == null) {
+		this.shape = PrideFlagShapes.get(shapeId);
+		if (this.shape == null) {
 			throw new IllegalArgumentException("Unknown pride flag shape " + shapeId);
 		}
 
@@ -32,19 +32,19 @@ public class PrideFlag {
 		for (var color : props.colors) {
 			colorsTmp.add(Integer.parseInt(color.substring(1), 16) | 0xFF000000);
 		}
-		colors = IntLists.unmodifiable(colorsTmp);
+		this.colors = IntLists.unmodifiable(colorsTmp);
 	}
 
 	public String getId() {
-		return id;
+		return this.id;
 	}
 
 	public PrideFlagShape getShape() {
-		return shape;
+		return this.shape;
 	}
 
 	public IntList getColors() {
-		return colors;
+		return this.colors;
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class PrideFlag {
 	 * @param height the render height of the flag
 	 */
 	public void render(MatrixStack matrices, float x, float y, float width, float height) {
-		shape.render(colors, matrices, x, y, width, height);
+		this.shape.render(this.colors, matrices, x, y, width, height);
 	}
 
 	static class Properties {

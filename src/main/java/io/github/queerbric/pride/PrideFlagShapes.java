@@ -1,12 +1,12 @@
 package io.github.queerbric.pride;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.Tessellator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexFormats;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormat;
-import net.minecraft.client.render.VertexFormats;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Matrix4f;
@@ -32,9 +32,9 @@ public class PrideFlagShapes {
 		register(new Identifier("pride", "horizontal_stripes"), horizStripes = (colors, matrices, x, y, w, h) -> {
 			float sh = h / colors.size();
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getModel();
+			Matrix4f mat = matrices.peek().getPosition();
 			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.getBuffer();
+			BufferBuilder bb = t.getBufferBuilder();
 			bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 			for (int i = 0; i < colors.size(); i++) {
 				int color = colors.getInt(i);
@@ -54,9 +54,9 @@ public class PrideFlagShapes {
 		register(new Identifier("pride", "vertical_stripes"), (colors, matrices, x, y, w, h) -> {
 			float sw = w / colors.size();
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getModel();
+			Matrix4f mat = matrices.peek().getPosition();
 			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.getBuffer();
+			BufferBuilder bb = t.getBufferBuilder();
 			bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
 			for (int i = 0; i < colors.size(); i++) {
 				int color = colors.getInt(i);
@@ -74,9 +74,9 @@ public class PrideFlagShapes {
 		});
 		register(new Identifier("pride", "circle"), (colors, matrices, x, y, w, h) -> {
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getModel();
+			Matrix4f mat = matrices.peek().getPosition();
 			Tessellator tess = Tessellator.getInstance();
-			BufferBuilder bb = tess.getBuffer();
+			BufferBuilder bb = tess.getBufferBuilder();
 			{
 				int color = colors.getInt(0);
 				float r = ((color >> 16) & 0xFF) / 255f;
@@ -114,9 +114,9 @@ public class PrideFlagShapes {
 			float cy = y + (h / 2);
 			horizStripes.render(colors.subList(1, colors.size()), matrices, x, y, w, h);
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getModel();
+			Matrix4f mat = matrices.peek().getPosition();
 			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.getBuffer();
+			BufferBuilder bb = t.getBufferBuilder();
 			bb.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
 			int color = colors.getInt(0);
 			float r = ((color >> 16) & 0xFF) / 255f;
@@ -140,9 +140,9 @@ public class PrideFlagShapes {
 		register(new Identifier("pride", "progress"), (colors, matrices, x, y, w, h) -> {
 			float hm = Math.min(w, h) / 2;
 			float cy = y + (h / 2);
-			Matrix4f mat = matrices.peek().getModel();
+			Matrix4f mat = matrices.peek().getPosition();
 			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.getBuffer();
+			BufferBuilder bb = t.getBufferBuilder();
 			horizStripes.render(progressBg, matrices, x, y, w, h);
 			RenderSystem.disableTexture();
 			bb.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);

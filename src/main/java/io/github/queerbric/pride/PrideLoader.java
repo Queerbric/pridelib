@@ -3,6 +3,7 @@ package io.github.queerbric.pride;
 import com.google.gson.Gson;
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
 import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.profiler.Profiler;
@@ -15,6 +16,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.regex.Pattern;
@@ -48,12 +50,13 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 		var flags = new ArrayList<PrideFlag>();
 
 		outer:
-		for (Identifier id : manager.findResources("flags", path -> path.endsWith(".json"))) {
+		for (var entry : manager.findResources("flags", path -> path.getPath().endsWith(".json")).entrySet()) {
+			Identifier id = entry.getKey();
 			String[] parts = id.getPath().split("/");
 			String name = parts[parts.length - 1];
 			name = name.substring(0, name.length() - 5);
 
-			try (var reader = new InputStreamReader(manager.getResource(id).getInputStream())) {
+			try (var reader = new InputStreamReader(entry.getValue().open())) {
 				PrideFlag.Properties builder = GSON.fromJson(reader, PrideFlag.Properties.class);
 
 				for (String color : builder.colors) {
@@ -86,8 +89,9 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 		} else {
 			var id = new Identifier("pride", "flags.json");
 
-			if (manager.containsResource(id)) {
-				try (var reader = new InputStreamReader(manager.getResource(id).getInputStream());) {
+			Optional<Resource> resource = manager.method_14486(id);
+			if (resource.isPresent()) {
+				try (var reader = new InputStreamReader(resource.get().open())) {
 					Config config = GSON.fromJson(reader, Config.class);
 
 					if (config.flags != null) {

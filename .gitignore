@@ -1,21 +1,88 @@
-#Gradle
-.gradle/
-build/
-out/
-classes/
+#
+# LambdAurora's ignore file
+#
+# v0.20
 
-#IDEA
+# JetBrains
 .idea/
 *.iml
 *.ipr
 *.iws
-
-#vscode
-.settings/
-.vscode/
-bin/
+## Intellij IDEA
+out/
+## CLion
+cmake-build-debug*/
+cmake-build-release*/
+## Eclipse
+eclipse
+*.launch
+.settings
+.metadata
 .classpath
 .project
+## Visual Studio
+.vs/
+CMakeSettings.json
 
-#fabric
+# Build system
+## Cargo
+Cargo.lock
+## CMake
+CMakeCache.txt
+CMakeLists.txt.user
+CMakeFiles/
+## QMake
+.qmake.stash
+## Gradle
+.gradle/
+## Node.JS
+node_modules/
+
+# Editors
+## VSCode
+.vscode/
+
+# Logging
+logs/
+
+# Languages
+## Java
+classes/
+## Python
+__pycache__/
+venv/
+## Rust
+**/*.rs.bk
+
+# OS
+## Windows
+desktop.ini
+# MacOS
+.DS_Store
+
+# File types
+*.dll
+*.db
+*.tar.?z
+
+# Asset files automatic backup
+.*.png-autosave.kra
+*.png~
+
+# Compilation artifacts/Binaries
+*.o
+*.so
+*.dylib
+*.lib
+lib*.a
+
+# Common
+bin/
+build/
+dist/
+lib/
+!src/lib/
+!src/**/lib/
+obj/
 run/
+target/
