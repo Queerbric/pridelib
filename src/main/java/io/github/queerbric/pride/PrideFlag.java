@@ -13,10 +13,10 @@ public class PrideFlag {
 	private final String id;
 	private final PrideFlagShape shape;
 	private final IntList colors;
+	private final Identifier shapeId;
 
 	protected PrideFlag(String id, Properties props) {
 		this.id = id;
-		Identifier shapeId;
 		if (props.shape == null) {
 			shapeId = new Identifier("pride", "horizontal_stripes");
 		} else {
@@ -41,6 +41,10 @@ public class PrideFlag {
 
 	public PrideFlagShape getShape() {
 		return this.shape;
+	}
+
+	public Identifier getShapeId() {
+		return this.shapeId;
 	}
 
 	public IntList getColors() {
