@@ -18,14 +18,14 @@ public class PrideFlag {
 	protected PrideFlag(String id, Properties props) {
 		this.id = id;
 		if (props.shape == null) {
-			shapeId = new Identifier("pride", "horizontal_stripes");
+			this.shapeId = new Identifier("pride", "horizontal_stripes");
 		} else {
-			shapeId = props.shape.contains(":") ? Identifier.tryParse(props.shape) : new Identifier("pride", props.shape);
+			this.shapeId = props.shape.contains(":") ? Identifier.tryParse(props.shape) : new Identifier("pride", props.shape);
 		}
 
-		this.shape = PrideFlagShapes.get(shapeId);
+		this.shape = PrideFlagShapes.get(this.shapeId);
 		if (this.shape == null) {
-			throw new IllegalArgumentException("Unknown pride flag shape " + shapeId);
+			throw new IllegalArgumentException("Unknown pride flag shape " + this.shapeId);
 		}
 
 		var colorsTmp = new IntArrayList(props.colors.length);

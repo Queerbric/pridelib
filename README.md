@@ -1,6 +1,6 @@
 # PrideLib
 
-![Java 16](https://img.shields.io/badge/language-Java%2017-9B599A.svg?style=flat-square)
+![Java 17](https://img.shields.io/badge/language-Java%2017-9B599A.svg?style=flat-square)
 [![GitHub license](https://img.shields.io/github/license/Queerbric/pridelib?style=flat-square)](https://raw.githubusercontent.com/Queerbric/pridelib/1.19/LICENSE)
 ![Environment: Client](https://img.shields.io/badge/environment-client-1976d2?style=flat-square)
 [![Mod loader: Fabric]][fabric]
