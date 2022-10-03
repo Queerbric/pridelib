@@ -3,7 +3,6 @@ package io.github.queerbric.pride;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.ints.IntLists;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
 /**
@@ -20,7 +19,7 @@ public class PrideFlag {
 		if (props.shape == null) {
 			this.shapeId = new Identifier("pride", "horizontal_stripes");
 		} else {
-			this.shapeId = props.shape.contains(":") ? Identifier.tryParse(props.shape) : new Identifier("pride", props.shape);
+			this.shapeId = parseIdentifier(props.shape);
 		}
 
 		this.shape = PrideFlagShapes.get(this.shapeId);
@@ -28,8 +27,8 @@ public class PrideFlag {
 			throw new IllegalArgumentException("Unknown pride flag shape " + this.shapeId);
 		}
 
-		var colorsTmp = new IntArrayList(props.colors.length);
-		for (var color : props.colors) {
+		IntArrayList colorsTmp = new IntArrayList(props.colors.length);
+		for (String color : props.colors) {
 			colorsTmp.add(Integer.parseInt(color.substring(1), 16) | 0xFF000000);
 		}
 		this.colors = IntLists.unmodifiable(colorsTmp);
@@ -54,14 +53,21 @@ public class PrideFlag {
 	/**
 	 * Renders this flag at the specified coordinates and with the specified dimensions.
 	 *
-	 * @param matrices the matrix stack
 	 * @param x the X-coordinate to render to
 	 * @param y the Y-coordinate to render to
 	 * @param width the render width of the flag
 	 * @param height the render height of the flag
 	 */
-	public void render(MatrixStack matrices, float x, float y, float width, float height) {
-		this.shape.render(this.colors, matrices, x, y, width, height);
+	public void render(float x, float y, float width, float height) {
+		this.shape.render(this.colors, x, y, width, height);
+	}
+
+	private Identifier parseIdentifier(String s){
+		if(s.contains(":")){
+			String[] array = s.split(":",1);
+			return new Identifier(array[0], array[1]);
+		}
+		return new Identifier("pride", s);
 	}
 
 	static class Properties {
