@@ -2,6 +2,7 @@ package io.github.queerbric.pride;
 
 import com.google.gson.Gson;
 import io.github.moehreag.searchInResources.SearchableResourceManager;
+import io.github.queerbric.pride.mixin.ResourceImplAccessor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.legacyfabric.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.legacyfabric.fabric.api.util.Identifier;
@@ -12,7 +13,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,7 +45,7 @@ public class PrideLoader implements IdentifiableResourceReloadListener {
 		outer:
 		for (Resource entry : ((SearchableResourceManager) manager)
 				.findResources("flags", path -> path.getPath().endsWith(".json")).values()){
-			net.minecraft.util.Identifier id = entry.getId();
+			net.minecraft.util.Identifier id = ((ResourceImplAccessor)entry).getId();
 			String[] parts = id.getPath().split("/");
 			String name = parts[parts.length - 1];
 			name = name.substring(0, name.length() - 5);
@@ -95,7 +95,7 @@ public class PrideLoader implements IdentifiableResourceReloadListener {
 					LOGGER.warn("[pride] Malformed flag data for flags.json", e);
 				}
 
-			} catch (IOException ignored){}
+			} catch (Exception ignored){}
 		}
 
 		return flags;

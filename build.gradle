@@ -37,6 +37,12 @@ repositories {
 
 loom {
 	setIntermediaryUrl('https://maven.legacyfabric.net/net/fabricmc/intermediary/%1$s/intermediary-%1$s-v2.jar')
+
+	runs {
+		client {
+			programArgs "--userProperties", "{}"
+		}
+	}
 }
 
 dependencies {
@@ -44,13 +50,11 @@ dependencies {
 	mappings "net.legacyfabric:yarn:${project.minecraft_version}+build.${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	// Fabric API provides hooks for events, item registration, and more. As most mods will need this, it's included by default.
-	// If you know for a fact you don't, it's not required and can be safely removed.
 	modImplementation ("net.legacyfabric.legacy-fabric-api:legacy-fabric-api:${fabric_api_version}") {
 		exclude module: "legacy-fabric-entity-events-v1"
 	}
 
-	modImplementation include("com.github.moehreag:search-in-resources:1.0.1")
+	modImplementation include(files("libs/search-in-resources-1.0.1+1.7.10.jar"))
 
 	implementation include('it.unimi.dsi:fastutil:8.5.8') // 1.8.9 does not use fastutil by default
 	implementation('org.apache.logging.log4j:log4j-core:2.19.0')

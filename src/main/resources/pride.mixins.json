@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "io.github.queerbric.pride.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+  ],
+  "client": [
+    "ResourceImplAccessor"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
