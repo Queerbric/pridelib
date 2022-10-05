@@ -56,7 +56,7 @@ dependencies {
 
 	modImplementation include('com.github.moehreag:search-in-resources:e5568c34d5')
 
-	implementation include('it.unimi.dsi:fastutil:8.5.8') // 1.8.9 does not use fastutil by default
+	implementation include('it.unimi.dsi:fastutil:8.5.8') // 1.7.10 does not use fastutil by default either
 	implementation('org.apache.logging.log4j:log4j-core:2.19.0')
 }
 
