@@ -20,9 +20,6 @@
       "io.github.queerbric.pride.PrideClient"
     ]
   },
-  "mixins": [
-    "pride.mixins.json"
-  ],
   "depends": {
     "minecraft": "1.7.10",
     "fabricloader": ">=0.12.12",

@@ -2,7 +2,6 @@ package io.github.queerbric.pride;
 
 import com.google.gson.Gson;
 import io.github.moehreag.searchInResources.SearchableResourceManager;
-import io.github.queerbric.pride.mixin.ResourceImplAccessor;
 import net.fabricmc.loader.api.FabricLoader;
 import net.legacyfabric.fabric.api.resource.IdentifiableResourceReloadListener;
 import net.legacyfabric.fabric.api.util.Identifier;
@@ -17,6 +16,7 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 public class PrideLoader implements IdentifiableResourceReloadListener {
@@ -43,14 +43,14 @@ public class PrideLoader implements IdentifiableResourceReloadListener {
 		List<PrideFlag> flags = new ArrayList<>();
 
 		outer:
-		for (Resource entry : ((SearchableResourceManager) manager)
-				.findResources("flags", path -> path.getPath().endsWith(".json")).values()){
-			net.minecraft.util.Identifier id = ((ResourceImplAccessor)entry).getId();
+		for (Map.Entry<net.minecraft.util.Identifier, Resource> entry : ((SearchableResourceManager) manager)
+				.findResources("flags", path -> path.getPath().endsWith(".json")).entrySet()){
+			net.minecraft.util.Identifier id = entry.getKey();
 			String[] parts = id.getPath().split("/");
 			String name = parts[parts.length - 1];
 			name = name.substring(0, name.length() - 5);
 
-			try (InputStreamReader reader = new InputStreamReader(entry.getInputStream())) {
+			try (InputStreamReader reader = new InputStreamReader(entry.getValue().getInputStream())) {
 				PrideFlag.Properties builder = GSON.fromJson(reader, PrideFlag.Properties.class);
 				for (String color : builder.colors) {
 					if (!HEX_COLOR_PATTERN.matcher(color).matches()) {
