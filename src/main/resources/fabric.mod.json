@@ -20,10 +20,11 @@
       "io.github.queerbric.pride.PrideClient"
     ]
   },
+  "mixins": [],
   "depends": {
-    "minecraft": ">=1.19",
+    "minecraft": "1.8.9",
     "fabricloader": ">=0.12.12",
-    "fabric-resource-loader-v0": "*"
+    "legacy-fabric-resource-loader-v1": "*"
   },
   "custom": {
     "modmenu": {
