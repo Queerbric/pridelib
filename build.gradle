@@ -54,7 +54,7 @@ dependencies {
 		exclude module: "legacy-fabric-entity-events-v1"
 	}
 
-	modImplementation include('com.github.moehreag:search-in-resources:e5568c34d5')
+	modImplementation include('com.github.moehreag:search-in-resources:8c0a8c3a68')
 
 	implementation include('it.unimi.dsi:fastutil:8.5.8') // 1.7.10 does not use fastutil by default either
 	implementation('org.apache.logging.log4j:log4j-core:2.19.0')
