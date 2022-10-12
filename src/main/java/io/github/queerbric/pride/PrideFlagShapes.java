@@ -1,15 +1,11 @@
 package io.github.queerbric.pride;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.Tessellator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormats;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import net.minecraft.client.render.Tessellator;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
+import org.lwjgl.opengl.GL11;
 
 import java.util.Map;
 
@@ -29,107 +25,122 @@ public class PrideFlagShapes {
 
 	static {
 		PrideFlagShape horizStripes;
-		register(new Identifier("pride", "horizontal_stripes"), horizStripes = (colors, matrices, x, y, w, h) -> {
+		register(new Identifier("pride", "horizontal_stripes"), horizStripes = (colors, x, y, w, h) -> {
 			float sh = h / colors.size();
-			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
-			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.getBufferBuilder();
-			bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+			GL11.glEnable(3042);
+			GL11.glDisable(3553);
+			Tessellator t = Tessellator.INSTANCE;
+
 			for (int i = 0; i < colors.size(); i++) {
+				t.method_1408(7);
 				int color = colors.getInt(i);
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
-				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.vertex(mat, x, y + sh, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + w, y + sh, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + w, y, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x, y, 0).color(r, g, b, 1).next();
+				float b = ((color) & 0xFF) / 255f;
+				GL11.glColor4f(r, g, b, 1);
+				t.method_1398(x, y + sh, 0);
+				t.method_1398(x + w, y + sh, 0);
+				t.method_1398(x + w, y, 0);
+				t.method_1398(x, y, 0);
+				t.method_1396();
 				y += sh;
 			}
-			t.draw();
+
+			GL11.glColor4f(1, 1, 1, 1);
 			// Mojang when will you use your state manager system to add fast pushAttrib/popAttrib
-			RenderSystem.enableTexture();
+			GL11.glEnable(3553);
+			GL11.glDisable(3042);
 		});
-		register(new Identifier("pride", "vertical_stripes"), (colors, matrices, x, y, w, h) -> {
+		register(new Identifier("pride", "vertical_stripes"), (colors, x, y, w, h) -> {
 			float sw = w / colors.size();
-			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
-			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.getBufferBuilder();
-			bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+			GL11.glEnable(3042);
+			GL11.glDisable(3553);
+			Tessellator t = Tessellator.INSTANCE;
+
 			for (int i = 0; i < colors.size(); i++) {
+				t.method_1408(7);
 				int color = colors.getInt(i);
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
-				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.vertex(mat, x, y + h, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + sw, y + h, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + sw, y, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x, y, 0).color(r, g, b, 1).next();
+				float b = ((color) & 0xFF) / 255f;
+				GL11.glColor4f(r, g, b, 1);
+				t.method_1398(x, y + h, 0);
+				t.method_1398(x + sw, y + h, 0);
+				t.method_1398(x + sw, y, 0);
+				t.method_1398(x, y, 0);
+				t.method_1396();
 				x += sw;
 			}
-			t.draw();
-			RenderSystem.enableTexture();
+
+			GL11.glColor4f(1, 1, 1, 1);
+			GL11.glEnable(3553);
+			GL11.glDisable(3042);
 		});
-		register(new Identifier("pride", "circle"), (colors, matrices, x, y, w, h) -> {
-			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
-			Tessellator tess = Tessellator.getInstance();
-			BufferBuilder bb = tess.getBufferBuilder();
+		register(new Identifier("pride", "circle"), (colors, x, y, w, h) -> {
+			GL11.glEnable(3042);
+			GL11.glDisable(3553);
+			Tessellator tess = Tessellator.INSTANCE;
 			{
 				int color = colors.getInt(0);
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
-				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-				bb.vertex(mat, x, y + h, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + w, y + h, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + w, y, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x, y, 0).color(r, g, b, 1).next();
-				tess.draw();
+				float b = ((color) & 0xFF) / 255f;
+				GL11.glColor4f(r, g, b, 1);
+				tess.method_1408(7);
+				tess.method_1398(x, y + h, 0);
+				tess.method_1398(x + w, y + h, 0);
+				tess.method_1398(x + w, y, 0);
+				tess.method_1398(x, y, 0);
+				tess.method_1396();
 			}
-			bb.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+
 			float br = Math.min(w, h) * 0.3f;
 			float cx = x + (w / 2);
 			float cy = y + (h / 2);
 			for (int p = 0; p < 2; p++) {
+				tess.method_1408(6); // Seems like the int-pendant to TRIANGLE_FAN is 6.
 				float rd = (p == 0 ? br : br * 0.8f);
 				int color = (p == 0 ? colors.getInt(1) : colors.getInt(0));
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
-				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.vertex(mat, cx, cy, 0).color(r, g, b, 1).next();
+				float b = ((color) & 0xFF) / 255f;
+				GL11.glColor4f(r, g, b, 1);
+				tess.method_1398(cx, cy, 0);
 				for (int i = 0; i < 65; i++) {
 					float t = (i / 64f);
 					final float TAU = (float) (Math.PI * 2);
-					bb.vertex(mat, cx + (MathHelper.sin(t * TAU) * rd), cy + (MathHelper.cos(t * TAU) * rd), 0).color(r, g, b, 1).next();
+					tess.method_1398(cx + (MathHelper.sin(t * TAU) * rd), cy + (MathHelper.cos(t * TAU) * rd), 0);
 				}
+				tess.method_1396();
 			}
-			tess.draw();
-			RenderSystem.enableTexture();
+
+			GL11.glColor4f(1, 1, 1, 1);
+			GL11.glEnable(3553);
+			GL11.glDisable(3042);
 		});
-		register(new Identifier("pride", "arrow"), (colors, matrices, x, y, w, h) -> {
+		register(new Identifier("pride", "arrow"), (colors, x, y, w, h) -> {
 			float s = Math.min(w, h) / 2;
 			float cy = y + (h / 2);
-			horizStripes.render(colors.subList(1, colors.size()), matrices, x, y, w, h);
-			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
-			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.getBufferBuilder();
-			bb.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
+			horizStripes.render(colors.subList(1, colors.size()), x, y, w, h);
+			GL11.glEnable(3042);
+			GL11.glDisable(3553);
+			Tessellator t = Tessellator.INSTANCE;
+			t.method_1408(4); // Int-pendant to TRIANGLE is 4.
 			int color = colors.getInt(0);
 			float r = ((color >> 16) & 0xFF) / 255f;
 			float g = ((color >> 8) & 0xFF) / 255f;
-			float b = ((color >> 0) & 0xFF) / 255f;
-			bb.vertex(mat, x, cy + s, 0).color(r, g, b, 1).next();
+			float b = ((color) & 0xFF) / 255f;
+			GL11.glColor4f(r, g, b, 1);
+			t.method_1398(x, cy + s, 0);
 			// yes, 1.5. the demisexual flag triangle appears to not be equilateral?
-			bb.vertex(mat, x + (s * 1.5f), cy, 0).color(r, g, b, 1).next();
-			bb.vertex(mat, x, cy - s, 0).color(r, g, b, 1).next();
-			t.draw();
-			RenderSystem.enableTexture();
+			t.method_1398(x + (s * 1.5f), cy, 0);
+			t.method_1398(x, cy - s, 0);
+			t.method_1396();
+			GL11.glColor4f(1, 1, 1, 1);
+			GL11.glEnable(3553);
+			GL11.glDisable(3042);
 		});
-		var progressBg = new IntArrayList(new int[]{
+		IntArrayList progressBg = new IntArrayList(new int[]{
 				0xD40606,
 				0xEE9C00,
 				0xE3FF00,
@@ -137,15 +148,14 @@ public class PrideFlagShapes {
 				0x001A98,
 				0x760089,
 		});
-		register(new Identifier("pride", "progress"), (colors, matrices, x, y, w, h) -> {
+		register(new Identifier("pride", "progress"), (colors, x, y, w, h) -> {
 			float hm = Math.min(w, h) / 2;
 			float cy = y + (h / 2);
-			Matrix4f mat = matrices.peek().getPosition();
-			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.getBufferBuilder();
-			horizStripes.render(progressBg, matrices, x, y, w, h);
-			RenderSystem.disableTexture();
-			bb.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
+			Tessellator t = Tessellator.INSTANCE;
+			horizStripes.render(progressBg, x, y, w, h);
+			GL11.glEnable(3042);
+			GL11.glDisable(3553);
+
 			int[] triangleColors = {
 					0x000000,
 					0x603813,
@@ -155,16 +165,21 @@ public class PrideFlagShapes {
 			};
 			float s = hm;
 			for (int color : triangleColors) {
+				t.method_1408(4);
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
-				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.vertex(mat, x, cy + s, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + (s * 1.1f), cy, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x, cy - s, 0).color(r, g, b, 1).next();
+				float b = ((color) & 0xFF) / 255f;
+				GL11.glColor4f(r, g, b, 1);
+				t.method_1398(x, cy + s, 0);
+				t.method_1398(x + (s * 1.1f), cy, 0);
+				t.method_1398(x, cy - s, 0);
 				s -= hm / 6;
+				t.method_1396();
 			}
-			t.draw();
-			RenderSystem.enableTexture();
+
+			GL11.glColor4f(1, 1, 1, 1);
+			GL11.glEnable(3553);
+			GL11.glDisable(3042);
 		});
 	}
 }

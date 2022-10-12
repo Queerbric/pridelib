@@ -16,8 +16,8 @@ public class PrideFlags {
 
 	protected static void setFlags(List<PrideFlag> flags) {
 		PrideFlags.flags = Collections.unmodifiableList(flags);
-		var flagsById = new Object2ObjectOpenHashMap<String, PrideFlag>(flags.size());
-		for (var flag : flags) {
+		Object2ObjectOpenHashMap<String, PrideFlag> flagsById = new Object2ObjectOpenHashMap<String, PrideFlag>(flags.size());
+		for (PrideFlag flag : flags) {
 			flagsById.put(flag.getId(), flag);
 		}
 		PrideFlags.flagsById = Collections.unmodifiableMap(flagsById);
