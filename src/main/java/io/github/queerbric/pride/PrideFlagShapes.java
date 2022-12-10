@@ -9,7 +9,7 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
+import org.joml.Matrix4f;
 
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class PrideFlagShapes {
 		register(new Identifier("pride", "horizontal_stripes"), horizStripes = (colors, matrices, x, y, w, h) -> {
 			float sh = h / colors.size();
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
 			bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -41,10 +41,10 @@ public class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.vertex(mat, x, y + sh, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + w, y + sh, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + w, y, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x, y, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x, y + sh, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x + w, y + sh, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x + w, y, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x, y, 0).color(r, g, b, 1).next();
 				y += sh;
 			}
 			t.draw();
@@ -54,7 +54,7 @@ public class PrideFlagShapes {
 		register(new Identifier("pride", "vertical_stripes"), (colors, matrices, x, y, w, h) -> {
 			float sw = w / colors.size();
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
 			bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -63,10 +63,10 @@ public class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.vertex(mat, x, y + h, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + sw, y + h, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + sw, y, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x, y, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x, y + h, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x + sw, y + h, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x + sw, y, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x, y, 0).color(r, g, b, 1).next();
 				x += sw;
 			}
 			t.draw();
@@ -74,7 +74,7 @@ public class PrideFlagShapes {
 		});
 		register(new Identifier("pride", "circle"), (colors, matrices, x, y, w, h) -> {
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder bb = tess.getBufferBuilder();
 			{
@@ -83,10 +83,10 @@ public class PrideFlagShapes {
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
 				bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-				bb.vertex(mat, x, y + h, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + w, y + h, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + w, y, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x, y, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x, y + h, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x + w, y + h, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x + w, y, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x, y, 0).color(r, g, b, 1).next();
 				tess.draw();
 			}
 			bb.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
@@ -99,11 +99,11 @@ public class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.vertex(mat, cx, cy, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, cx, cy, 0).color(r, g, b, 1).next();
 				for (int i = 0; i < 65; i++) {
 					float t = (i / 64f);
 					final float TAU = (float) (Math.PI * 2);
-					bb.vertex(mat, cx + (MathHelper.sin(t * TAU) * rd), cy + (MathHelper.cos(t * TAU) * rd), 0).color(r, g, b, 1).next();
+					bb.m_rkxaaknb(mat, cx + (MathHelper.sin(t * TAU) * rd), cy + (MathHelper.cos(t * TAU) * rd), 0).color(r, g, b, 1).next();
 				}
 			}
 			tess.draw();
@@ -114,7 +114,7 @@ public class PrideFlagShapes {
 			float cy = y + (h / 2);
 			horizStripes.render(colors.subList(1, colors.size()), matrices, x, y, w, h);
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
 			bb.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
@@ -122,10 +122,10 @@ public class PrideFlagShapes {
 			float r = ((color >> 16) & 0xFF) / 255f;
 			float g = ((color >> 8) & 0xFF) / 255f;
 			float b = ((color >> 0) & 0xFF) / 255f;
-			bb.vertex(mat, x, cy + s, 0).color(r, g, b, 1).next();
+			bb.m_rkxaaknb(mat, x, cy + s, 0).color(r, g, b, 1).next();
 			// yes, 1.5. the demisexual flag triangle appears to not be equilateral?
-			bb.vertex(mat, x + (s * 1.5f), cy, 0).color(r, g, b, 1).next();
-			bb.vertex(mat, x, cy - s, 0).color(r, g, b, 1).next();
+			bb.m_rkxaaknb(mat, x + (s * 1.5f), cy, 0).color(r, g, b, 1).next();
+			bb.m_rkxaaknb(mat, x, cy - s, 0).color(r, g, b, 1).next();
 			t.draw();
 			RenderSystem.enableTexture();
 		});
@@ -140,7 +140,7 @@ public class PrideFlagShapes {
 		register(new Identifier("pride", "progress"), (colors, matrices, x, y, w, h) -> {
 			float hm = Math.min(w, h) / 2;
 			float cy = y + (h / 2);
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
 			horizStripes.render(progressBg, matrices, x, y, w, h);
@@ -158,9 +158,9 @@ public class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.vertex(mat, x, cy + s, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x + (s * 1.1f), cy, 0).color(r, g, b, 1).next();
-				bb.vertex(mat, x, cy - s, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x, cy + s, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x + (s * 1.1f), cy, 0).color(r, g, b, 1).next();
+				bb.m_rkxaaknb(mat, x, cy - s, 0).color(r, g, b, 1).next();
 				s -= hm / 6;
 			}
 			t.draw();
