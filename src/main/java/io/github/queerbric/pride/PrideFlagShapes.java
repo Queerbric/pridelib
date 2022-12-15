@@ -41,10 +41,10 @@ public class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.m_rkxaaknb(mat, x, y + sh, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x + w, y + sh, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x + w, y, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x, y, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x, y + sh, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x + w, y + sh, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x + w, y, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x, y, 0).color(r, g, b, 1).next();
 				y += sh;
 			}
 			t.draw();
@@ -63,10 +63,10 @@ public class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.m_rkxaaknb(mat, x, y + h, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x + sw, y + h, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x + sw, y, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x, y, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x, y + h, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x + sw, y + h, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x + sw, y, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x, y, 0).color(r, g, b, 1).next();
 				x += sw;
 			}
 			t.draw();
@@ -83,10 +83,10 @@ public class PrideFlagShapes {
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
 				bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
-				bb.m_rkxaaknb(mat, x, y + h, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x + w, y + h, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x + w, y, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x, y, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x, y + h, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x + w, y + h, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x + w, y, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x, y, 0).color(r, g, b, 1).next();
 				tess.draw();
 			}
 			bb.begin(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
@@ -99,11 +99,11 @@ public class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.m_rkxaaknb(mat, cx, cy, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, cx, cy, 0).color(r, g, b, 1).next();
 				for (int i = 0; i < 65; i++) {
 					float t = (i / 64f);
 					final float TAU = (float) (Math.PI * 2);
-					bb.m_rkxaaknb(mat, cx + (MathHelper.sin(t * TAU) * rd), cy + (MathHelper.cos(t * TAU) * rd), 0).color(r, g, b, 1).next();
+					bb.vertex(mat, cx + (MathHelper.sin(t * TAU) * rd), cy + (MathHelper.cos(t * TAU) * rd), 0).color(r, g, b, 1).next();
 				}
 			}
 			tess.draw();
@@ -122,10 +122,10 @@ public class PrideFlagShapes {
 			float r = ((color >> 16) & 0xFF) / 255f;
 			float g = ((color >> 8) & 0xFF) / 255f;
 			float b = ((color >> 0) & 0xFF) / 255f;
-			bb.m_rkxaaknb(mat, x, cy + s, 0).color(r, g, b, 1).next();
+			bb.vertex(mat, x, cy + s, 0).color(r, g, b, 1).next();
 			// yes, 1.5. the demisexual flag triangle appears to not be equilateral?
-			bb.m_rkxaaknb(mat, x + (s * 1.5f), cy, 0).color(r, g, b, 1).next();
-			bb.m_rkxaaknb(mat, x, cy - s, 0).color(r, g, b, 1).next();
+			bb.vertex(mat, x + (s * 1.5f), cy, 0).color(r, g, b, 1).next();
+			bb.vertex(mat, x, cy - s, 0).color(r, g, b, 1).next();
 			t.draw();
 			RenderSystem.enableTexture();
 		});
@@ -158,9 +158,9 @@ public class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.m_rkxaaknb(mat, x, cy + s, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x + (s * 1.1f), cy, 0).color(r, g, b, 1).next();
-				bb.m_rkxaaknb(mat, x, cy - s, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x, cy + s, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x + (s * 1.1f), cy, 0).color(r, g, b, 1).next();
+				bb.vertex(mat, x, cy - s, 0).color(r, g, b, 1).next();
 				s -= hm / 6;
 			}
 			t.draw();
