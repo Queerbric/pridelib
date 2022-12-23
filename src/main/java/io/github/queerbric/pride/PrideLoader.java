@@ -89,7 +89,7 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 		} else {
 			var id = new Identifier("pride", "flags.json");
 
-			Optional<Resource> resource = manager.method_14486(id);
+			Optional<Resource> resource = manager.getResource(id);
 			if (resource.isPresent()) {
 				try (var reader = new InputStreamReader(resource.get().open())) {
 					Config config = GSON.fromJson(reader, Config.class);

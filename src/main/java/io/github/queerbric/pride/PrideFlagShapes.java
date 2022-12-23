@@ -9,7 +9,7 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Matrix4f;
+import org.joml.Matrix4f;
 
 import java.util.Map;
 
@@ -32,7 +32,7 @@ public class PrideFlagShapes {
 		register(new Identifier("pride", "horizontal_stripes"), horizStripes = (colors, matrices, x, y, w, h) -> {
 			float sh = h / colors.size();
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
 			bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -54,7 +54,7 @@ public class PrideFlagShapes {
 		register(new Identifier("pride", "vertical_stripes"), (colors, matrices, x, y, w, h) -> {
 			float sw = w / colors.size();
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
 			bb.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
@@ -74,7 +74,7 @@ public class PrideFlagShapes {
 		});
 		register(new Identifier("pride", "circle"), (colors, matrices, x, y, w, h) -> {
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder bb = tess.getBufferBuilder();
 			{
@@ -114,7 +114,7 @@ public class PrideFlagShapes {
 			float cy = y + (h / 2);
 			horizStripes.render(colors.subList(1, colors.size()), matrices, x, y, w, h);
 			RenderSystem.disableTexture();
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
 			bb.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
@@ -140,7 +140,7 @@ public class PrideFlagShapes {
 		register(new Identifier("pride", "progress"), (colors, matrices, x, y, w, h) -> {
 			float hm = Math.min(w, h) / 2;
 			float cy = y + (h / 2);
-			Matrix4f mat = matrices.peek().getPosition();
+			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
 			horizStripes.render(progressBg, matrices, x, y, w, h);
