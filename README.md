@@ -12,6 +12,7 @@ PrideLib is a small JIJ dependency for modders who want to use a centralized dat
 ```gradle
 repositories {
 	maven {
+		name 'Gegy Maven'
 		url 'https://maven.gegy.dev'
 	}
 }

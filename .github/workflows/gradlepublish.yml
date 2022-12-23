@@ -17,7 +17,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Build with Gradle
-        run: ./gradlew build
+        run: ./gradlew build --parallel --stacktrace
 
       - uses: actions/upload-artifact@v2
         with:

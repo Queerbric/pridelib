@@ -3,6 +3,8 @@ package io.github.queerbric.pride;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.ints.IntLists;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 
@@ -60,6 +62,7 @@ public class PrideFlag {
 	 * @param width the render width of the flag
 	 * @param height the render height of the flag
 	 */
+	@Environment(EnvType.CLIENT)
 	public void render(MatrixStack matrices, float x, float y, float width, float height) {
 		this.shape.render(this.colors, matrices, x, y, width, height);
 	}

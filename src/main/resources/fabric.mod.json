@@ -3,7 +3,7 @@
   "id": "pride",
   "version": "${version}",
   "name": "Pride Lib",
-  "description": "A unified library for data-driven flags",
+  "description": "A unified library for data-driven flags.",
   "authors": [
     "Emi"
   ],
@@ -21,7 +21,7 @@
     ]
   },
   "depends": {
-    "minecraft": ">=1.19",
+    "minecraft": ">=1.19.3",
     "fabricloader": ">=0.12.12",
     "fabric-resource-loader-v0": "*"
   },
