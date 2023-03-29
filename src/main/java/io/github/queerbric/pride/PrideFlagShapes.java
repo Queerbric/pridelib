@@ -1,6 +1,5 @@
 package io.github.queerbric.pride;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.Tessellator;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -13,7 +12,7 @@ import org.joml.Matrix4f;
 
 import java.util.Map;
 
-public class PrideFlagShapes {
+public final class PrideFlagShapes {
 	private static final Map<Identifier, PrideFlagShape> REGISTRY = new Object2ObjectOpenHashMap<>();
 
 	public static PrideFlagShape get(Identifier id) {
@@ -31,7 +30,6 @@ public class PrideFlagShapes {
 		PrideFlagShape horizStripes;
 		register(new Identifier("pride", "horizontal_stripes"), horizStripes = (colors, matrices, x, y, w, h) -> {
 			float sh = h / colors.size();
-			RenderSystem.disableTexture();
 			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
@@ -48,12 +46,9 @@ public class PrideFlagShapes {
 				y += sh;
 			}
 			t.draw();
-			// Mojang when will you use your state manager system to add fast pushAttrib/popAttrib
-			RenderSystem.enableTexture();
 		});
 		register(new Identifier("pride", "vertical_stripes"), (colors, matrices, x, y, w, h) -> {
 			float sw = w / colors.size();
-			RenderSystem.disableTexture();
 			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
@@ -70,10 +65,8 @@ public class PrideFlagShapes {
 				x += sw;
 			}
 			t.draw();
-			RenderSystem.enableTexture();
 		});
 		register(new Identifier("pride", "circle"), (colors, matrices, x, y, w, h) -> {
-			RenderSystem.disableTexture();
 			Matrix4f mat = matrices.peek().getModel();
 			Tessellator tess = Tessellator.getInstance();
 			BufferBuilder bb = tess.getBufferBuilder();
@@ -107,13 +100,11 @@ public class PrideFlagShapes {
 				}
 			}
 			tess.draw();
-			RenderSystem.enableTexture();
 		});
 		register(new Identifier("pride", "arrow"), (colors, matrices, x, y, w, h) -> {
 			float s = Math.min(w, h) / 2;
 			float cy = y + (h / 2);
 			horizStripes.render(colors.subList(1, colors.size()), matrices, x, y, w, h);
-			RenderSystem.disableTexture();
 			Matrix4f mat = matrices.peek().getModel();
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
@@ -127,7 +118,6 @@ public class PrideFlagShapes {
 			bb.vertex(mat, x + (s * 1.5f), cy, 0).color(r, g, b, 1).next();
 			bb.vertex(mat, x, cy - s, 0).color(r, g, b, 1).next();
 			t.draw();
-			RenderSystem.enableTexture();
 		});
 		var progressBg = new IntArrayList(new int[]{
 				0xD40606,
@@ -144,7 +134,6 @@ public class PrideFlagShapes {
 			Tessellator t = Tessellator.getInstance();
 			BufferBuilder bb = t.getBufferBuilder();
 			horizStripes.render(progressBg, matrices, x, y, w, h);
-			RenderSystem.disableTexture();
 			bb.begin(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
 			int[] triangleColors = {
 					0x000000,
@@ -164,7 +153,6 @@ public class PrideFlagShapes {
 				s -= hm / 6;
 			}
 			t.draw();
-			RenderSystem.enableTexture();
 		});
 	}
 }
