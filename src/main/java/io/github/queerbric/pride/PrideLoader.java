@@ -22,7 +22,7 @@ import java.util.concurrent.Executor;
 import java.util.regex.Pattern;
 
 public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>> {
-	private static final Identifier ID = new Identifier("pride", "flags");
+	private static final Identifier ID = Identifier.of("pride", "flags");
 	private static final Logger LOGGER = LogManager.getLogger("pride");
 	private static final Gson GSON = new Gson();
 	private static final Pattern HEX_COLOR_PATTERN = Pattern.compile("^#[0-9a-fA-F]{6}$");
@@ -87,7 +87,7 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 				LOGGER.warn("[pride] Malformed flag data for pride.json config");
 			}
 		} else {
-			var id = new Identifier("pride", "flags.json");
+			var id = Identifier.of("pride", "flags.json");
 
 			Optional<Resource> resource = manager.getResource(id);
 			if (resource.isPresent()) {
