@@ -20,9 +20,9 @@ public class PrideFlag {
 	protected PrideFlag(String id, Properties props) {
 		this.id = id;
 		if (props.shape == null) {
-			this.shapeId = new Identifier("pride", "horizontal_stripes");
+			this.shapeId = Identifier.of("pride", "horizontal_stripes");
 		} else {
-			this.shapeId = props.shape.contains(":") ? Identifier.tryParse(props.shape) : new Identifier("pride", props.shape);
+			this.shapeId = props.shape.contains(":") ? Identifier.tryParse(props.shape) : Identifier.of("pride", props.shape);
 		}
 
 		this.shape = PrideFlagShapes.get(this.shapeId);
