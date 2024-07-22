@@ -67,7 +67,7 @@ public class PrideFlag {
 		this.shape.render(this.colors, matrices, x, y, width, height);
 	}
 
-	static class Properties {
+	protected static class Properties {
 		public String shape;
 		public String[] colors;
 	}

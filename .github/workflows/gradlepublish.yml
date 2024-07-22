@@ -1,32 +1,38 @@
-name: Gradle Package
+name: "Release"
 
 on:
   push:
     tags:
-      - 'v*'
+      - "v*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
+      - name: "Checkout"
+        uses: actions/checkout@v4
         with:
-          java-version: 17
-          distribution: 'temurin'
+          fetch-depth: 0
+      - name: "Set up Java"
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: 21
+      - name: "Set up Gradle"
+        uses: gradle/actions/setup-gradle@v3
 
-      - name: Build with Gradle
+      - name: "Gradle Build"
         run: ./gradlew build --parallel --stacktrace
 
-      - uses: actions/upload-artifact@v2
+      - name: "Upload artifacts"
+        uses: actions/upload-artifact@v4
         with:
           name: Artifacts
           path: ./build/libs/
 
       # The USERNAME and PASSWORD need to correspond to the credentials environment variables used in
       # the publishing section of your build.gradle
-      - name: Publish to GitHub Packages and other Mavens
+      - name: "Publish to GitHub Packages and other Mavens"
         run: ./gradlew publish
         env:
           BRANCH_NAME: ${{ github.ref }}
