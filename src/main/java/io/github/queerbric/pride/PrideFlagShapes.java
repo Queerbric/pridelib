@@ -3,11 +3,8 @@ package io.github.queerbric.pride;
 import com.mojang.blaze3d.vertex.*;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.unmapped.C_fpcijbbg;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.math.MathHelper;
-import org.joml.Matrix4f;
 
 import java.util.Map;
 
@@ -31,16 +28,16 @@ public final class PrideFlagShapes {
 			float sh = h / colors.size();
 			MatrixStack.Entry mat = matrices.peek();
 			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.method_60827(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+			BufferBuilder bb = t.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 			for (int i = 0; i < colors.size(); i++) {
 				int color = colors.getInt(i);
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.method_56824(mat, x, y + sh, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x + w, y + sh, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x + w, y, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x, y, 0).method_22915(r, g, b, 1);
+				bb.addVertex(mat, x, y + sh, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x + w, y + sh, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x + w, y, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x, y, 0).setColor(r, g, b, 1);
 				y += sh;
 			}
 			drawAndClear(bb, t);
@@ -49,16 +46,16 @@ public final class PrideFlagShapes {
 			float sw = w / colors.size();
 			MatrixStack.Entry mat = matrices.peek();
 			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.method_60827(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+			BufferBuilder bb = t.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 			for (int i = 0; i < colors.size(); i++) {
 				int color = colors.getInt(i);
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.method_56824(mat, x, y + h, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x + sw, y + h, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x + sw, y, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x, y, 0).method_22915(r, g, b, 1);
+				bb.addVertex(mat, x, y + h, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x + sw, y + h, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x + sw, y, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x, y, 0).setColor(r, g, b, 1);
 				x += sw;
 			}
 			drawAndClear(bb, t);
@@ -67,18 +64,18 @@ public final class PrideFlagShapes {
 			MatrixStack.Entry mat = matrices.peek();
 			Tessellator tess = Tessellator.getInstance();
 			{
-				BufferBuilder bb = tess.method_60827(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
+				BufferBuilder bb = tess.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
 				int color = colors.getInt(0);
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.method_56824(mat, x, y + h, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x + w, y + h, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x + w, y, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x, y, 0).method_22915(r, g, b, 1);
+				bb.addVertex(mat, x, y + h, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x + w, y + h, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x + w, y, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x, y, 0).setColor(r, g, b, 1);
 				drawAndClear(bb, tess);
 			}
-			BufferBuilder bb = tess.method_60827(VertexFormat.DrawMode.TRIANGLE_FAN, VertexFormats.POSITION_COLOR);
+			BufferBuilder bb = tess.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
 			float br = Math.min(w, h) * 0.3f;
 			float cx = x + (w / 2);
 			float cy = y + (h / 2);
@@ -88,11 +85,11 @@ public final class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.method_56824(mat, cx, cy, 0).method_22915(r, g, b, 1);
+				bb.addVertex(mat, cx, cy, 0).setColor(r, g, b, 1);
 				for (int i = 0; i < 65; i++) {
 					float t = (i / 64f);
 					final float TAU = (float) (Math.PI * 2);
-					bb.method_56824(mat, cx + (MathHelper.sin(t * TAU) * rd), cy + (MathHelper.cos(t * TAU) * rd), 0).method_22915(r, g, b, 1);
+					bb.addVertex(mat, cx + (MathHelper.sin(t * TAU) * rd), cy + (MathHelper.cos(t * TAU) * rd), 0).setColor(r, g, b, 1);
 				}
 			}
 			drawAndClear(bb, tess);
@@ -103,15 +100,15 @@ public final class PrideFlagShapes {
 			horizStripes.render(colors.subList(1, colors.size()), matrices, x, y, w, h);
 			MatrixStack.Entry mat = matrices.peek();
 			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.method_60827(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
+			BufferBuilder bb = t.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
 			int color = colors.getInt(0);
 			float r = ((color >> 16) & 0xFF) / 255f;
 			float g = ((color >> 8) & 0xFF) / 255f;
 			float b = ((color >> 0) & 0xFF) / 255f;
-			bb.method_56824(mat, x, cy + s, 0).method_22915(r, g, b, 1);
+			bb.addVertex(mat, x, cy + s, 0).setColor(r, g, b, 1);
 			// yes, 1.5. the demisexual flag triangle appears to not be equilateral?
-			bb.method_56824(mat, x + (s * 1.5f), cy, 0).method_22915(r, g, b, 1);
-			bb.method_56824(mat, x, cy - s, 0).method_22915(r, g, b, 1);
+			bb.addVertex(mat, x + (s * 1.5f), cy, 0).setColor(r, g, b, 1);
+			bb.addVertex(mat, x, cy - s, 0).setColor(r, g, b, 1);
 			drawAndClear(bb, t);
 		});
 		var progressBg = new IntArrayList(new int[]{
@@ -127,7 +124,7 @@ public final class PrideFlagShapes {
 			float cy = y + (h / 2);
 			MatrixStack.Entry mat = matrices.peek();
 			Tessellator t = Tessellator.getInstance();
-			BufferBuilder bb = t.method_60827(VertexFormat.DrawMode.TRIANGLES, VertexFormats.POSITION_COLOR);
+			BufferBuilder bb = t.begin(VertexFormat.Mode.TRIANGLES, DefaultVertexFormat.POSITION_COLOR);
 
 			horizStripes.render(progressBg, matrices, x, y, w, h);
 			int[] triangleColors = {
@@ -142,9 +139,9 @@ public final class PrideFlagShapes {
 				float r = ((color >> 16) & 0xFF) / 255f;
 				float g = ((color >> 8) & 0xFF) / 255f;
 				float b = ((color >> 0) & 0xFF) / 255f;
-				bb.method_56824(mat, x, cy + s, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x + (s * 1.1f), cy, 0).method_22915(r, g, b, 1);
-				bb.method_56824(mat, x, cy - s, 0).method_22915(r, g, b, 1);
+				bb.addVertex(mat, x, cy + s, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x + (s * 1.1f), cy, 0).setColor(r, g, b, 1);
+				bb.addVertex(mat, x, cy - s, 0).setColor(r, g, b, 1);
 				s -= hm / 6;
 			}
 			drawAndClear(bb, t);
@@ -152,10 +149,10 @@ public final class PrideFlagShapes {
 	}
 
 	private static void drawAndClear(BufferBuilder builder, Tessellator tessellator) {
-		C_fpcijbbg builtBuffer = builder.method_60794();
-		if (builtBuffer != null) {
-			BufferRenderer.drawWithShader(builtBuffer);
+		MeshData meshData = builder.build();
+		if (meshData != null) {
+			BufferUploader.drawWithShader(meshData);
 		}
-		tessellator.method_60828();
+		tessellator.clear();
 	}
 }

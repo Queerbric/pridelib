@@ -1,5 +1,5 @@
 plugins {
-	id("fabric-loom") version "1.7.+"
+	id("fabric-loom") version "1.6.+"
 	`java-library`
 	`maven-publish`
 }
@@ -14,15 +14,24 @@ val targetJavaVersion = 21
 
 repositories {
 	maven {
-		name = "Quilt"
-		url = uri("https://maven.quiltmc.org/repository/release")
+		name = "Gegy"
+		url = uri("https://maven.gegy.dev/releases/")
 	}
+	maven {
+		name = "ParchmentMC"
+		url = uri("https://maven.parchmentmc.org")
+	}
+	mavenLocal()
 }
 
 dependencies {
 	minecraft("com.mojang:minecraft:${minecraftVersion}")
 	@Suppress("UnstableApiUsage")
-	mappings("org.quiltmc:quilt-mappings:${minecraftVersion}+build.${project.property("quilt_mappings")}:intermediary-v2")
+	mappings(loom.layered {
+		officialMojangMappings()
+		parchment("org.parchmentmc.data:parchment-${minecraftVersion}:${project.property("parchment_version")}@zip")
+		mappings("dev.lambdaurora:yalmm:${minecraftVersion}+build.${project.property("yalmm_version")}")
+	})
 	modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
 
 	modImplementation(fabricApi.module("fabric-resource-loader-v0", project.property("fabric_api_version") as String))

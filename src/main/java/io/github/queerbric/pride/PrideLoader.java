@@ -3,9 +3,9 @@ package io.github.queerbric.pride;
 import com.google.gson.Gson;
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourceManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.io.Resource;
+import net.minecraft.resources.io.ResourceManager;
 import net.minecraft.util.profiler.Profiler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -50,9 +50,9 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 		var flags = new ArrayList<PrideFlag>();
 
 		outer:
-		for (var entry : manager.findResources("flags", path -> path.getPath().endsWith(".json")).entrySet()) {
+		for (var entry : manager.findResources("flags", path -> path.path().endsWith(".json")).entrySet()) {
 			Identifier id = entry.getKey();
-			String[] parts = id.getPath().split("/");
+			String[] parts = id.path().split("/");
 			String name = parts[parts.length - 1];
 			name = name.substring(0, name.length() - 5);
 
