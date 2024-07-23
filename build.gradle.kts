@@ -12,6 +12,10 @@ group = "io.github.queerbric"
 // This field defines the Java version your mod target.
 val targetJavaVersion = 21
 
+loom {
+	runtimeOnlyLog4j = true
+}
+
 repositories {
 	maven {
 		name = "Gegy"

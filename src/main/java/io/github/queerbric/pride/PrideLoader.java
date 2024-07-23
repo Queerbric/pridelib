@@ -7,8 +7,8 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.io.Resource;
 import net.minecraft.resources.io.ResourceManager;
 import net.minecraft.util.profiler.Profiler;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileReader;
@@ -23,7 +23,7 @@ import java.util.regex.Pattern;
 
 public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>> {
 	private static final Identifier ID = Identifier.of("pride", "flags");
-	private static final Logger LOGGER = LogManager.getLogger("pride");
+	private static final Logger LOGGER = LoggerFactory.getLogger("pride");
 	private static final Gson GSON = new Gson();
 	private static final Pattern HEX_COLOR_PATTERN = Pattern.compile("^#[0-9a-fA-F]{6}$");
 
