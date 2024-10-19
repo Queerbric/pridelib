@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "id": "pride_test",
+  "version": "1.0.0",
+  "name": "Pride Lib (Test)",
+  "environment": "client",
+  "mixins": [
+    "pride.test.mixins.json"
+  ]
+}

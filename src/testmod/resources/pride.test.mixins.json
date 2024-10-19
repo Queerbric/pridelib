@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "io.github.queerbric.pride.test",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+		"TestMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

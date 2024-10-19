@@ -6,7 +6,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.io.Resource;
 import net.minecraft.resources.io.ResourceManager;
-import net.minecraft.util.profiler.Profiler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,12 +36,12 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 	}
 
 	@Override
-	public CompletableFuture<List<PrideFlag>> load(ResourceManager manager, Profiler profiler, Executor executor) {
+	public CompletableFuture<List<PrideFlag>> load(ResourceManager manager, Executor executor) {
 		return CompletableFuture.supplyAsync(() -> loadFlags(manager));
 	}
 
 	@Override
-	public CompletableFuture<Void> apply(List<PrideFlag> list, ResourceManager manager, Profiler profiler, Executor executor) {
+	public CompletableFuture<Void> apply(List<PrideFlag> list, ResourceManager manager, Executor executor) {
 		return CompletableFuture.runAsync(() -> applyFlags(list));
 	}
 

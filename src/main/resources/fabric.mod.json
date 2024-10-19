@@ -20,6 +20,7 @@
       "io.github.queerbric.pride.PrideClient"
     ]
   },
+  "accessWidener": "pride.accesswidener",
   "depends": {
     "minecraft": ">=1.19.4",
     "fabricloader": ">=0.12.12",

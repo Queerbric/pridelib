@@ -1,11 +1,11 @@
 package io.github.queerbric.pride;
 
-import com.mojang.blaze3d.vertex.MatrixStack;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.ints.IntList;
 import it.unimi.dsi.fastutil.ints.IntLists;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.Identifier;
 
 /**
@@ -56,15 +56,15 @@ public class PrideFlag {
 	/**
 	 * Renders this flag at the specified coordinates and with the specified dimensions.
 	 *
-	 * @param matrices the matrix stack
+	 * @param graphics the GUI graphics
 	 * @param x the X-coordinate to render to
 	 * @param y the Y-coordinate to render to
 	 * @param width the render width of the flag
 	 * @param height the render height of the flag
 	 */
 	@Environment(EnvType.CLIENT)
-	public void render(MatrixStack matrices, float x, float y, float width, float height) {
-		this.shape.render(this.colors, matrices, x, y, width, height);
+	public void render(GuiGraphics graphics, int x, int y, int width, int height) {
+		this.shape.render(graphics, this.colors, x, y, width, height);
 	}
 
 	protected static class Properties {
