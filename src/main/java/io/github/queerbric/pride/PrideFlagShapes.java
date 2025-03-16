@@ -4,6 +4,7 @@ import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.resources.Identifier;
+import org.joml.Vector2f;
 
 import java.util.Map;
 
@@ -49,13 +50,10 @@ public final class PrideFlagShapes {
 
 			graphics.fill(x, y, x + w, y + h, colors.getFirst());
 
-			var program = client.getShaderManager().getProgram(PrideClient.FLAG_SHAPE_CIRCLE_SHADER);
-			var radiusUniform = program.getUniform("radius");
-			if (radiusUniform != null) radiusUniform.set(radius, radius - radius * .8f);
-			var centerPointUniform = program.getUniform("center_pos");
-			if (centerPointUniform != null) centerPointUniform.set(cx, cy);
-
-			graphics.fill(PrideClient.FLAG_SHAPE_CIRCLE_RENDER_TYPE, x, y, x + w, y + h, colors.getInt(1));
+			graphics.fill(PrideClient.getFlagShapeCircleRenderType(
+					new Vector2f(cx, cy),
+					new Vector2f(radius, radius - radius * .8f)
+			), x, y, x + w, y + h, colors.getInt(1));
 		});
 		register(Identifier.of("pride", "arrow"), (graphics, colors, x, y, w, h) -> {
 			horizStripes.render(graphics, colors.subList(1, colors.size()), x, y, w, h);

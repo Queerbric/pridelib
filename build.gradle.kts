@@ -17,7 +17,7 @@ import java.nio.file.Path
 import java.util.regex.Pattern
 
 plugins {
-	id("fabric-loom") version "1.8.+"
+	id("fabric-loom") version "1.10.+"
 	`java-library`
 	`maven-publish`
 }
