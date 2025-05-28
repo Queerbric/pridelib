@@ -7,7 +7,6 @@ import com.mojang.blaze3d.shaders.UniformType;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import io.github.queerbric.pride.impl.PrideFlagShapeCircleRenderType;
-import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
@@ -18,7 +17,7 @@ import net.minecraft.resources.io.ResourceType;
 import org.joml.Vector2fc;
 
 @Environment(EnvType.CLIENT)
-public class PrideClient implements ClientModInitializer {
+public final class PrideClient {
 	public static final String NAMESPACE = "pride";
 
 	public static final RenderPipeline FLAG_SHAPE_TRIANGLE_RENDER_PIPELINE = RenderPipeline.builder(RenderPipelines.MATRICES_COLOR_SNIPPET)
@@ -45,6 +44,7 @@ public class PrideClient implements ClientModInitializer {
 			FLAG_SHAPE_TRIANGLE_RENDER_PIPELINE,
 			RenderType.CompositeState.builder().createCompositeState(false)
 	);
+
 	public static RenderType getFlagShapeCircleRenderType(Vector2fc centerPos, Vector2fc radius) {
 		return new PrideFlagShapeCircleRenderType(
 				"pride_flag_shape_circle",
@@ -59,15 +59,14 @@ public class PrideClient implements ClientModInitializer {
 		);
 	}
 
-	@Override
-	public void onInitializeClient() {
+	public static Identifier id(String path) {
+		return Identifier.of(NAMESPACE, path);
+	}
+
+	public static void init() {
 		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new PrideLoader());
 
 		RenderPipelines.register(FLAG_SHAPE_TRIANGLE_RENDER_PIPELINE);
 		RenderPipelines.register(FLAG_SHAPE_CIRCLE_PIPELINE);
-	}
-
-	public static Identifier id(String path) {
-		return Identifier.of(NAMESPACE, path);
 	}
 }
