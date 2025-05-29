@@ -1,9 +1,14 @@
 package io.github.queerbric.pride;
 
+import io.github.queerbric.pride.impl.PrideFlagShapeArrowRenderState;
+import io.github.queerbric.pride.impl.PrideFlagShapeCircleRenderState;
+import io.github.queerbric.pride.impl.PrideFlagShapeProgressRenderState;
 import it.unimi.dsi.fastutil.ints.IntArrayList;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
+import org.joml.Matrix3x2f;
 import org.joml.Vector2f;
 
 import java.util.Map;
@@ -43,31 +48,39 @@ public final class PrideFlagShapes {
 			}
 		});
 		register(Identifier.of("pride", "circle"), (graphics, colors, x, y, w, h) -> {
-			var client = Minecraft.getInstance();
 			float radius = Math.min(w, h) * 0.3f;
 			float cx = x + (w / 2.f);
 			float cy = y + (h / 2.f);
 
 			graphics.fill(x, y, x + w, y + h, colors.getFirst());
 
-			graphics.fill(PrideClient.getFlagShapeCircleRenderType(
-					new Vector2f(cx, cy),
-					new Vector2f(radius, radius - radius * .8f)
-			), x, y, x + w, y + h, colors.getInt(1));
+			graphics.guiRenderState.submitGuiElement(
+					new PrideFlagShapeCircleRenderState(
+							PrideClient.FLAG_SHAPE_CIRCLE_PIPELINE, TextureSetup.noTexture(),
+							new Matrix3x2f(graphics.pose()),
+							x, y, x + w, y + h,
+							colors.getInt(1),
+							new Vector2f(cx, cy),
+							(int) radius, (int) (radius - radius * .8f),
+							null
+					)
+			);
 		});
 		register(Identifier.of("pride", "arrow"), (graphics, colors, x, y, w, h) -> {
 			horizStripes.render(graphics, colors.subList(1, colors.size()), x, y, w, h);
 
-			graphics.drawSpecial(bufferSource -> {
-				float s = Math.min(w, h) / 2.f;
-				float cy = y + (h / 2.f);
-				var buffer = bufferSource.getBuffer(PrideClient.FLAG_SHAPE_TRIANGLE_RENDER_TYPE);
-				int color = colors.getInt(0);
-				buffer.addVertex(x, cy + s, 0).color(color);
-				// yes, 1.5. the demisexual flag triangle appears to not be equilateral?
-				buffer.addVertex(x + (s * 1.5f), cy, 0).color(color);
-				buffer.addVertex(x, cy - s, 0).color(color);
-			});
+			float s = Math.min(w, h) / 2.f;
+			float cy = y + (h / 2.f);
+
+			graphics.guiRenderState.submitGuiElement(
+					new PrideFlagShapeArrowRenderState(
+							RenderPipelines.GUI, TextureSetup.noTexture(),
+							new Matrix3x2f(graphics.pose()),
+							x, cy, s,
+							colors.getInt(0),
+							null
+					)
+			);
 		});
 		var progressBg = new IntArrayList(new int[]{
 				0xffd40606,
@@ -80,27 +93,17 @@ public final class PrideFlagShapes {
 		register(Identifier.of("pride", "progress"), (graphics, colors, x, y, w, h) -> {
 			horizStripes.render(graphics, progressBg, x, y, w, h);
 
-			graphics.drawSpecial(bufferSource -> {
-				float hm = Math.min(w, h) / 2.f;
-				int cy = (int) (y + (h / 2.f));
+			float hm = Math.min(w, h) / 2.f;
+			int cy = (int) (y + (h / 2.f));
 
-				var buffer = bufferSource.getBuffer(PrideClient.FLAG_SHAPE_TRIANGLE_RENDER_TYPE);
-
-				int[] triangleColors = {
-						0xff000000,
-						0xff603813,
-						0xff74d7ec,
-						0xffffafc7,
-						0xfffbf9f5,
-				};
-				float s = hm;
-				for (int color : triangleColors) {
-					buffer.addVertex(x, cy + s, 0).color(color);
-					buffer.addVertex(x + (s * 1.1f), cy, 0).color(color);
-					buffer.addVertex(x, cy - s, 0).color(color);
-					s -= hm / 6;
-				}
-			});
+			graphics.guiRenderState.submitGuiElement(
+					new PrideFlagShapeProgressRenderState(
+							RenderPipelines.GUI, TextureSetup.noTexture(),
+							new Matrix3x2f(graphics.pose()),
+							x, cy, hm,
+							null
+					)
+			);
 		});
 	}
 }

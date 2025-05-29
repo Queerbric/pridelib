@@ -1,13 +1,6 @@
 accessWidener   v2  named
 
-accessible field net/minecraft/client/renderer/RenderPipelines MATRICES_COLOR_SNIPPET Lcom/mojang/blaze3d/pipeline/RenderPipeline$Snippet;
+accessible field net/minecraft/client/gui/GuiGraphics guiRenderState Lnet/minecraft/client/gui/render/state/GuiRenderState;
+
+accessible field net/minecraft/client/renderer/RenderPipelines GUI_SNIPPET Lcom/mojang/blaze3d/pipeline/RenderPipeline$Snippet;
 accessible method net/minecraft/client/renderer/RenderPipelines register (Lcom/mojang/blaze3d/pipeline/RenderPipeline;)Lcom/mojang/blaze3d/pipeline/RenderPipeline;
-
-accessible method net/minecraft/client/renderer/RenderType create (Ljava/lang/String;ILcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/client/renderer/RenderType$CompositeState;)Lnet/minecraft/client/renderer/RenderType$CompositeRenderType;
-extendable class net/minecraft/client/renderer/RenderType$CompositeRenderType
-accessible field net/minecraft/client/renderer/RenderType$CompositeRenderType state Lnet/minecraft/client/renderer/RenderType$CompositeState;
-accessible method net/minecraft/client/renderer/RenderType$CompositeRenderType <init> (Ljava/lang/String;IZZLcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/client/renderer/RenderType$CompositeState;)V
-
-accessible class net/minecraft/client/renderer/RenderType$CompositeState
-accessible field net/minecraft/client/renderer/RenderType$CompositeState outputState Lnet/minecraft/client/renderer/RenderStateShard$OutputStateShard;
-accessible method net/minecraft/client/renderer/RenderType$CompositeState$CompositeStateBuilder createCompositeState (Z)Lnet/minecraft/client/renderer/RenderType$CompositeState;
