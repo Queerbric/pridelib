@@ -1,6 +1,9 @@
 package io.github.queerbric.pride;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParser;
+import com.mojang.serialization.JsonOps;
+import io.github.queerbric.pride.shape.PrideFlagShape;
 import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
@@ -18,13 +21,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import java.util.regex.Pattern;
 
 public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>> {
 	private static final Identifier ID = Identifier.of("pride", "flags");
 	private static final Logger LOGGER = LoggerFactory.getLogger("pride");
 	private static final Gson GSON = new Gson();
-	private static final Pattern HEX_COLOR_PATTERN = Pattern.compile("^#[0-9a-fA-F]{6}$");
 
 	static class Config {
 		String[] flags;
@@ -56,20 +57,25 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 			name = name.substring(0, name.length() - 5);
 
 			try (var reader = new InputStreamReader(entry.getValue().open())) {
-				PrideFlag.Properties builder = GSON.fromJson(reader, PrideFlag.Properties.class);
+				var rawJson = JsonParser.parseReader(reader);
 
-				for (String color : builder.colors) {
-					if (!HEX_COLOR_PATTERN.matcher(color).matches()) {
-						LOGGER.warn("[pride] Malformed flag data for flag " + name + ", " + color
-								+ " is not a valid color, must be a six-digit hex color like #FF00FF");
-						continue outer;
-					}
+				if (!rawJson.isJsonObject()) {
+					LOGGER.warn("[pride] Failed to pride flag \"{}\". Expected JSON object in file.", id);
+					continue;
 				}
 
-				var flag = new PrideFlag(name, builder);
-				flags.add(flag);
+				var loaded = PrideFlagShape.CODEC.parse(JsonOps.INSTANCE, rawJson);
+
+				loaded.ifError(error -> {
+					LOGGER.warn("[pride] Failed to load pride flag \"{}\" due to error: {}", id, error.message());
+				});
+
+				var result = loaded.result();
+				if (result.isPresent()) {
+					flags.add(new PrideFlag(name, result.get()));
+				}
 			} catch (Exception e) {
-				LOGGER.warn("[pride] Malformed flag data for flag " + name, e);
+				LOGGER.warn("[pride] Malformed flag data for flag {}", name, e);
 			}
 		}
 

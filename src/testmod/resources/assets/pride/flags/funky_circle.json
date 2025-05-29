@@ -1,0 +1,14 @@
+{
+	"shape": "pride:circle",
+	"background": {
+		"shape": "pride:circle",
+		"background": {
+			"colors": [
+				"#0000ff"
+			]
+		},
+		"color": "#00ff00",
+		"radius_ratio": 0.5
+	},
+	"color": "#ff0000"
+}

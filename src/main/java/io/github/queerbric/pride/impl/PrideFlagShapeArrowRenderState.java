@@ -14,19 +14,19 @@ import org.joml.Matrix3x2f;
 public record PrideFlagShapeArrowRenderState(
 		RenderPipeline pipeline, TextureSetup textureSetup,
 		Matrix3x2f pose,
-		int x, float cy, float s, int color,
+		int x, float cy, float s, float advanceRatio, int color,
 		@Nullable ScreenRectangle scissorArea, @Nullable ScreenRectangle bounds
 ) implements GuiElementRenderState {
 	public PrideFlagShapeArrowRenderState(
 			RenderPipeline pipeline, TextureSetup textureSetup,
 			Matrix3x2f pose,
-			int x, float cy, float s, int color,
+			int x, float cy, float s, float advanceRatio, int color,
 			@Nullable ScreenRectangle scissorArea
 	) {
 		this(
 				pipeline, textureSetup,
 				pose,
-				x, cy, s, color,
+				x, cy, s, advanceRatio, color,
 				scissorArea, getBounds(x, cy, s, pose, scissorArea)
 		);
 	}
@@ -34,8 +34,7 @@ public record PrideFlagShapeArrowRenderState(
 	@Override
 	public void buildVertices(VertexConsumer vertexConsumer, float z) {
 		vertexConsumer.addVertexWith2DPose(this.pose(), this.x, this.cy + this.s, z).color(this.color);
-		// yes, 1.5. the demisexual flag triangle appears to not be equilateral?
-		vertexConsumer.addVertexWith2DPose(this.pose(), this.x + (this.s * 1.5f), this.cy, z).color(this.color);
+		vertexConsumer.addVertexWith2DPose(this.pose(), this.x + (this.s * this.advanceRatio), this.cy, z).color(this.color);
 		vertexConsumer.addVertexWith2DPose(this.pose(), this.x, this.cy - this.s, z).color(this.color);
 		// Dirty 4th vertex as GUI only accepts quads.
 		vertexConsumer.addVertexWith2DPose(this.pose(), this.x, this.cy, z).color(this.color);

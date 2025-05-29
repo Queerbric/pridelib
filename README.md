@@ -27,7 +27,7 @@ dependencies {
 Flags are json files located at `assets/[namespace]/flags/[name].json`. The namespace is unimportant, the name of the file is its ID, and only one of each ID will be loaded. Flags have a shape (which if omitted will default to `pride:horizontal_stripes`) and a set of colors. The following example is the trans flag.
 ```json
 {
-	"shape": "horizontal_stripes",
+	"shape": "pride:horizontal_stripes",
 	"colors": [
 		"#55cdfc",
 		"#f7a8b8",
@@ -74,7 +74,7 @@ Since you may particularly want to make use of this library during Pride Month (
 
 The following flag shapes are built-in to PrideLib. Any mod can contribute additional shapes by registering them with `PrideFlagShapes`.
 
-### `horizontal_stripes`
+### `pride:horizontal_stripes`
 
 A basic flag consisting of an arbitrary number of equally-sized colored stripes. Each color is a stripe. The first color is the top stripe, the last is the bottom stripe.
 
@@ -82,7 +82,7 @@ You can accomplish non-equally-sized stripes by repeating the same color multipl
 
 Examples: rainbow flag, trans flag, pan flag, nonbinary flag, many more
 
-### `vertical_stripes`
+### `pride:vertical_stripes`
 
 A basic flag consisting of an arbitrary number of equally-sized colored stripes. Each color is a stripe. The first color is the left stripe, the last is the right stripe.
 
@@ -90,28 +90,39 @@ You can accomplish non-equally-sized stripes by repeating the same color multipl
 
 Examples: androgynous flag (not built-in)
 
-### `circle`
+### `pride:circle`
 
-A flag with a solid background and a hollow circle in the foreground. The first color is the background, the second color is the color of the circle. Additional colors are ignored.
+A flag with a background (`background` key, accepts a pride flag shape) and a hollow circle in the foreground (using `color` as its colors).
 
 Examples: intersex flag
 
-### `arrow`
+### `pride:arrow`
 
-A flag with a triangle pointing to the right on the left side of the flag. The first color is the color of the triangle, the rest are treated as in horizontal_stripes and make up the background.
+A flag with a triangle pointing to the right on the left side of the flag.
 
-Examples: demisexual flag (not built-in)
-
-### `progress`
-
-Something very close to the "Progress" pride flag design. Hardcoded due to its unique shape; ignores all colors.
-
-Not provided by any built-in flags; you can add this JSON file to provide it:
+Examples: demisexual flag (not built-in), progress (not built-in)
 
 ```json
 {
-	"shape": "progress",
-	"colors": []
+	"shape": "pride:arrow",
+	"background": {
+		"colors": [
+			"#d40606",
+			"#ee9C00",
+			"#e3ff00",
+			"#06bf00",
+			"#001a98",
+			"#760089"
+		]
+	},
+	"colors": [
+		"#000000",
+		"#603813",
+		"#74d7ec",
+		"#ffafc7",
+		"#fbf9f5"
+	],
+	"advance_ratio": 1.1
 }
 ```
 

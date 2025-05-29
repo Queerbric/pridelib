@@ -1,4 +1,21 @@
 {
-	"shape": "progress",
-	"colors": []
+	"shape": "pride:arrow",
+	"background": {
+		"colors": [
+			"#d40606",
+			"#ee9C00",
+			"#e3ff00",
+			"#06bf00",
+			"#001a98",
+			"#760089"
+		]
+	},
+	"colors": [
+		"#000000",
+		"#603813",
+		"#74d7ec",
+		"#ffafc7",
+		"#fbf9f5"
+	],
+	"advance_ratio": 1.1
 }

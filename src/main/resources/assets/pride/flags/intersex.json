@@ -1,7 +1,9 @@
 {
-	"shape": "circle",
-	"colors": [
-		"#FFD800",
-		"#7400AE"
-	]
+	"shape": "pride:circle",
+	"background": {
+		"colors": [
+			"#ffd800"
+		]
+	},
+	"color": "#7400ae"
 }
