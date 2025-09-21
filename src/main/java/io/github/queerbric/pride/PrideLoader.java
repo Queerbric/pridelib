@@ -1,27 +1,26 @@
 package io.github.queerbric.pride;
 
 import com.google.gson.Gson;
-import net.fabricmc.fabric.api.resource.SimpleResourceReloadListener;
-import net.fabricmc.loader.api.FabricLoader;
+import dev.yumi.mc.core.api.YumiMods;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.io.Resource;
 import net.minecraft.resources.io.ResourceManager;
+import net.minecraft.resources.io.SinglePreparationResourceReloader;
+import net.minecraft.util.profiling.ProfilerFiller;
+import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Executor;
 import java.util.regex.Pattern;
 
-public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>> {
-	private static final Identifier ID = Identifier.of("pride", "flags");
+public class PrideLoader extends SinglePreparationResourceReloader<List<PrideFlag>> {
+	public static final Identifier ID = Identifier.of("pride", "flags");
 	private static final Logger LOGGER = LoggerFactory.getLogger("pride");
 	private static final Gson GSON = new Gson();
 	private static final Pattern HEX_COLOR_PATTERN = Pattern.compile("^#[0-9a-fA-F]{6}$");
@@ -30,19 +29,18 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 		String[] flags;
 	}
 
-	@Override
-	public Identifier getFabricId() {
+	public @NotNull Identifier id() {
 		return ID;
 	}
 
 	@Override
-	public CompletableFuture<List<PrideFlag>> load(ResourceManager manager, Executor executor) {
-		return CompletableFuture.supplyAsync(() -> loadFlags(manager));
+	public List<PrideFlag> prepare(ResourceManager manager, ProfilerFiller profiler) {
+		return loadFlags(manager);
 	}
 
 	@Override
-	public CompletableFuture<Void> apply(List<PrideFlag> list, ResourceManager manager, Executor executor) {
-		return CompletableFuture.runAsync(() -> applyFlags(list));
+	public void apply(List<PrideFlag> list, ResourceManager manager, ProfilerFiller profiler) {
+		applyFlags(list);
 	}
 
 	public static List<PrideFlag> loadFlags(ResourceManager manager) {
@@ -73,9 +71,9 @@ public class PrideLoader implements SimpleResourceReloadListener<List<PrideFlag>
 			}
 		}
 
-		var prideFile = new File(FabricLoader.getInstance().getConfigDir().toFile(), "pride.json");
-		if (prideFile.exists()) {
-			try (var reader = new FileReader(prideFile)) {
+		var pridePath = YumiMods.get().getConfigDirectory().resolve("pride.json");
+		if (Files.exists(pridePath)) {
+			try (var reader = Files.newBufferedReader(pridePath)) {
 				Config config = GSON.fromJson(reader, Config.class);
 
 				if (config.flags != null) {

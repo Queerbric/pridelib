@@ -7,13 +7,12 @@ import com.mojang.blaze3d.shaders.UniformType;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import io.github.queerbric.pride.impl.PrideFlagShapeCircleRenderType;
+import io.github.queerbric.pride.impl.platform.Platform;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.io.ResourceType;
 import org.joml.Vector2fc;
 
 @Environment(EnvType.CLIENT)
@@ -63,8 +62,8 @@ public final class PrideClient {
 		return Identifier.of(NAMESPACE, path);
 	}
 
-	public static void init() {
-		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new PrideLoader());
+	public static void init(Platform platform) {
+		platform.registerReloader(new PrideLoader());
 
 		RenderPipelines.register(FLAG_SHAPE_TRIANGLE_RENDER_PIPELINE);
 		RenderPipelines.register(FLAG_SHAPE_CIRCLE_PIPELINE);

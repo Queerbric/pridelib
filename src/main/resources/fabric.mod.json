@@ -1,34 +1,40 @@
 {
-  "schemaVersion": 1,
-  "id": "pride",
-  "version": "${version}",
-  "name": "Pride Lib",
-  "description": "A unified library for data-driven flags.",
-  "authors": [
-    "Emi"
-  ],
-  "contributors": [
-    "unascribed",
-    "LambdAurora"
-  ],
-  "contact": {},
-  "license": "MIT",
-  "icon": "assets/pride/icon.png",
-  "environment": "*",
-  "entrypoints": {
-    "client": [
-      "io.github.queerbric.pride.impl.PrideClientInitializer"
-    ]
-  },
-  "accessWidener": "pride.accesswidener",
-  "depends": {
-    "minecraft": "~1.21.5- <1.21.6-",
-    "fabricloader": ">=0.12.12",
-    "fabric-resource-loader-v0": "*"
-  },
-  "custom": {
-    "modmenu": {
-      "badges": [ "library" ]
-    }
-  }
+	"schemaVersion": 1,
+	"id": "pride",
+	"version": "${version}",
+	"name": "Pride Lib",
+	"description": "A unified library for data-driven flags.",
+	"authors": [
+		"Emi"
+	],
+	"contributors": [
+		"unascribed",
+		"LambdAurora"
+	],
+	"contact": {},
+	"license": "MIT",
+	"icon": "assets/pride/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"yumi:client_init": [
+			"io.github.queerbric.pride.impl.PrideClientInitializer"
+		],
+		"pride:platform_provider": [
+			"io.github.queerbric.pride.impl.platform.fabric.FabricPlatform"
+		]
+	},
+	"accessWidener": "pride.accesswidener",
+	"depends": {
+		"minecraft": "~1.21.5- <1.21.6-",
+		"fabricloader": ">=0.12.12",
+		"yumi_mc_core": ">=1.0.0-alpha.13+1.21.1",
+		"fabric-resource-loader-v0": "*"
+	},
+	"custom": {
+		"modmenu": {
+			"badges": [
+				"library"
+			]
+		}
+	}
 }
