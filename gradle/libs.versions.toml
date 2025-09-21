@@ -1,0 +1,15 @@
+[versions]
+minecraft = "1.21.1"
+fabric-loader = "0.16.14"
+neoforge-loader = "7.0.11"
+
+# Dependencies
+yumi-mc-foundation = "1.0.0-alpha.13+1.21.1"
+
+[libraries]
+minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
+fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
+neoforge-loader = { module = "net.neoforged.fancymodloader:loader", version.ref = "neoforge-loader" }
+
+# Dependencies
+yumi-mc-foundation = { module = "dev.yumi.mc.core:yumi-mc-foundation", version.ref = "yumi-mc-foundation" }
