@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.io.ResourceManager;
 import net.minecraft.resources.io.ResourceType;
+import net.minecraft.util.profiling.Profiler;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
@@ -32,10 +33,16 @@ public class FabricPlatform implements PlatformProvider, Platform {
 					public CompletableFuture<Void> reload(
 							Synchronizer synchronizer,
 							ResourceManager resourceManager,
+							Profiler prepareProfiler,
+							Profiler applyProfiler,
 							Executor prepareExecutor,
 							Executor applyExecutor
 					) {
-						return reloader.reload(synchronizer, resourceManager, prepareExecutor, applyExecutor);
+						return reloader.reload(
+								synchronizer, resourceManager,
+								prepareProfiler, applyProfiler,
+								prepareExecutor, applyExecutor
+						);
 					}
 				});
 	}
