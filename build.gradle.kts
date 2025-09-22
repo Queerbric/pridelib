@@ -112,7 +112,7 @@ tasks.processResources {
 	inputs.property("version", project.version)
 
 	filesMatching("fabric.mod.json") {
-		expand("version" to inputs.properties["version"])
+		expand("version" to (inputs.properties["version"] as String))
 	}
 }
 
@@ -121,7 +121,7 @@ tasks.getByName("processMojmapResources") {
 	inputs.property("version", project.version)
 
 	filesMatching("META-INF/neoforge.mods.toml") {
-		expand("version" to inputs.properties["version"])
+		expand("version" to (inputs.properties["version"] as String))
 	}
 }
 
