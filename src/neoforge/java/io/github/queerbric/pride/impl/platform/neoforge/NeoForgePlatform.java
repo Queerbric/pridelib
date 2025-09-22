@@ -3,29 +3,55 @@ package io.github.queerbric.pride.impl.platform.neoforge;
 import dev.yumi.mc.core.api.ModContainer;
 import io.github.queerbric.pride.PrideLoader;
 import io.github.queerbric.pride.impl.platform.Platform;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
+import io.github.queerbric.pride.impl.platform.PlatformProvider;
+import net.minecraft.resources.io.ResourceReloader;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModList;
+import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 
-public class NeoForgePlatform implements Platform {
-	private final ModContainer mod;
-	private final IEventBus eventBus;
+import java.util.ArrayList;
+import java.util.List;
 
-	public NeoForgePlatform(ModContainer mod) {
-		this.mod = mod;
+public class NeoForgePlatform implements Platform, PlatformProvider {
+	public static final NeoForgePlatform INSTANCE = new NeoForgePlatform();
+	private ResourceReloaderRegistration resourceReloaderRegistrar = new ResourceReloaderRegistration() {
+		private final List<ResourceReloader> resourceReloaders = new ArrayList<>();
 
-		this.eventBus = ModList.get().getModContainerById(this.mod.id())
-				.orElseThrow(() -> new IllegalStateException(
-						"Could not find NeoForge mod container despite mod being initialized as %s."
-								.formatted(this.mod.id())
-				))
-				.getEventBus();
+		@Override
+		public void register(ResourceReloader reloader) {
+			this.resourceReloaders.add(reloader);
+		}
+
+		@Override
+		public void withEventBus(IEventBus eventBus) {
+			var newHandler = new ResourceReloaderRegistration() {
+				@Override
+				public void register(ResourceReloader reloader) {
+					eventBus.addListener(RegisterClientReloadListenersEvent.class, event -> {
+						event.registerReloadListener(reloader);
+					});
+				}
+
+				@Override
+				public void withEventBus(IEventBus eventBus) {}
+			};
+			resourceReloaderRegistrar = newHandler;
+			this.resourceReloaders.forEach(newHandler::register);
+		}
+	};
+
+	private NeoForgePlatform() {}
+
+	@Override
+	public Platform getPlatform(ModContainer mod) {
+		return this;
 	}
 
 	@Override
 	public void registerReloader(PrideLoader reloader) {
-		this.eventBus.addListener(AddClientReloadListenersEvent.class, event -> {
-			event.addListener(reloader.id(), reloader);
-		});
+		this.resourceReloaderRegistrar.register(reloader);
+	}
+
+	public void withEventBus(IEventBus eventBus) {
+		this.resourceReloaderRegistrar.withEventBus(eventBus);
 	}
 }
