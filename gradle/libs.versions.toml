@@ -6,6 +6,11 @@ neoforge-loader = "7.0.11"
 # Dependencies
 yumi-mc-foundation = "1.0.0-alpha.13+1.21.1"
 
+# Gradle
+gradle-licenser = "2.1.+"
+gradle-loom = "1.11.+"
+gradle-lambdamcdev = "1.3.+"
+
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 fabric-loader = { module = "net.fabricmc:fabric-loader", version.ref = "fabric-loader" }
@@ -13,3 +18,11 @@ neoforge-loader = { module = "net.neoforged.fancymodloader:loader", version.ref 
 
 # Dependencies
 yumi-mc-foundation = { module = "dev.yumi.mc.core:yumi-mc-foundation", version.ref = "yumi-mc-foundation" }
+
+# Gradle
+gradle-loom = { module = "net.fabricmc:fabric-loom", version.ref = "gradle-loom" }
+gradle-lambdamcdev = { module = "dev.lambdaurora.mcdev:dev.lambdaurora.mcdev.gradle.plugin", version.ref = "gradle-lambdamcdev" }
+
+[plugins]
+loom = { id = "fabric-loom", version.ref = "gradle-loom" }
+lambdamcdev = { id = "dev.lambdaurora.mcdev", version.ref = "gradle-lambdamcdev" }
