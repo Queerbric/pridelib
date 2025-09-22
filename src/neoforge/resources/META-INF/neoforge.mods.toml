@@ -9,7 +9,7 @@ version = "${version}"
 displayName = "Pride Lib"
 description = "A unified library for data-driven flags."
 authors = "Emi"
-credits = ["unascribed", "LambdAurora"]
+credits = "unascribed, LambdAurora"
 logoFile = "assets/pride/icon.png"
 logoBlur = false
 displayURL = "https://github.com/Queerbric/pridelib"
@@ -21,7 +21,7 @@ file = "META-INF/accesstransformer.cfg"
 [[dependencies.pride]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.8,)"
+versionRange = "[1.21.6,1.21.8]"
 ordering = "NONE"
 side = "BOTH"
 
@@ -35,8 +35,8 @@ side = "CLIENT"
 [modproperties.pride]
 catalogueImageIcon = "assets/pride/icon.png"
 
-[[modproperties.lambdynlights_runtime."yumi:entrypoints"."yumi:client_init"]]
+[[modproperties.pride."yumi:entrypoints"."yumi:client_init"]]
 value = "io.github.queerbric.pride.impl.PrideClientInitializer"
 
-[[modproperties.lambdynlights_runtime."yumi:entrypoints"."pride:platform_provider"]]
+[[modproperties.pride."yumi:entrypoints"."pride:platform_provider"]]
 value = "io.github.queerbric.pride.impl.platform.neoforge.NeoForgePlatformProvider"

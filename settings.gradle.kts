@@ -11,3 +11,5 @@ pluginManagement {
 		gradlePluginPortal()
 	}
 }
+
+includeBuild("build_logic")
