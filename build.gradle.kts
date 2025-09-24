@@ -103,7 +103,7 @@ tasks.processResources {
 	}
 }
 
-tasks.getByName("processMojmapResources") {
+tasks.getByName("processNeoforgeResources") {
 	this as ProcessResources
 	inputs.property("version", project.version)
 
