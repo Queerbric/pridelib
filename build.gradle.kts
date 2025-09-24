@@ -1,5 +1,4 @@
-import net.fabricmc.loom.LoomGradleExtension
-import net.fabricmc.loom.api.mappings.layered.MappingsNamespace
+import dev.lambdaurora.mcdev.api.MappingVariant
 import net.fabricmc.loom.task.RemapJarTask
 import net.fabricmc.loom.task.RemapSourcesJarTask
 import task.AssembleNeoForgeJarTask
@@ -17,14 +16,18 @@ base.archivesName.set("pridelib")
 // This field defines the Java version your mod target.
 val targetJavaVersion = Integer.parseInt(project.property("java_version") as String)
 
-val mojmap = lambdamcdev.setupMojmapRemapping()
-mojmap.sourceSet().compileClasspath += sourceSets.main.get().compileClasspath
-mojmap.sourceSet().runtimeClasspath += sourceSets.main.get().runtimeClasspath
-mojmap.sourceSet().java {
-	this.srcDir("src/neoforge/java")
+java {
+	sourceCompatibility = JavaVersion.toVersion(targetJavaVersion)
+	targetCompatibility = JavaVersion.toVersion(targetJavaVersion)
+
+	withSourcesJar()
 }
-mojmap.sourceSet().resources {
-	this.srcDir("src/neoforge/resources")
+
+val mojmap = lambdamcdev.setupMojmapRemapping()
+
+val neoforge: SourceSet by sourceSets.creating {
+	this.compileClasspath += sourceSets.main.get().compileClasspath
+	this.runtimeClasspath += sourceSets.main.get().runtimeClasspath
 }
 
 val testmod: SourceSet by sourceSets.creating {
@@ -52,7 +55,7 @@ afterEvaluate {
 	dependencies {
 		"shimsCompileOnly"(libs.fabric.loader) // Due to MC classes referring to EnvType.
 		"shimsCompileOnly"(libs.neoforge.loader)
-		"mojmapCompileOnly"(shims.output)
+		"neoforgeCompileOnly"(shims.output)
 	}
 }
 
@@ -90,17 +93,16 @@ dependencies {
 	modImplementation(libs.yumi.mc.foundation)
 	modImplementation(fabricApi.module("fabric-resource-loader-v0", project.property("fabric_api_version") as String))
 
-	"mojmapCompileOnly"(libs.neoforge.loader)
-	"mojmapImplementation"(sourceSets.main.get().output)
+	"neoforgeCompileOnly"(libs.neoforge.loader)
+	"neoforgeImplementation"(sourceSets.main.get().output)
+
+	"mojmapImplementation"(libs.yumi.mc.foundation) {
+		attributes {
+			attribute(MappingVariant.ATTRIBUTE, objects.named(MappingVariant.MOJMAP))
+		}
+	}
 
 	"testmodImplementation"(sourceSets.main.get().output)
-}
-
-java {
-	sourceCompatibility = JavaVersion.toVersion(targetJavaVersion)
-	targetCompatibility = JavaVersion.toVersion(targetJavaVersion)
-
-	withSourcesJar()
 }
 
 tasks.withType<JavaCompile>().configureEach {
@@ -133,52 +135,36 @@ tasks.jar {
 	}
 }
 
-val neoforgeJarTask = tasks.getByName("mojmapJar", Jar::class)
+val neoforgeJarTask = tasks.register("neoforgeJar", Jar::class) {
+	this.group = "build"
+	this.from(neoforge.output)
+	this.destinationDirectory = project.layout.buildDirectory.get().dir("devlibs/neoforge")
+}
 
 val remapNeoforgeJar = tasks.register<RemapJarTask>("remapNeoforgeJarToIntermediary") {
 	this.group = "remapping"
 	this.dependsOn(neoforgeJarTask)
-	this.inputFile.set(neoforgeJarTask.archiveFile)
-	this.classpath.from(mojmap.sourceSet().compileClasspath)
+	this.inputFile.set(neoforgeJarTask.flatMap{ it.archiveFile })
+	this.classpath.from(neoforge.compileClasspath)
 	this.archiveClassifier = "neoforge-intermediary"
 	this.destinationDirectory = project.layout.buildDirectory.get().dir("devlibs/neoforge")
 
 	addNestedDependencies = false // Jars will be included later.
 }
 
-val remapMojmap by tasks.registering(RemapJarTask::class) {
-	this.group = "remapping"
-	this.dependsOn(tasks.remapJar)
-
-	inputFile.set(tasks.remapJar.flatMap { it.archiveFile })
-	customMappings.from(mojmap.mappingsConfiguration())
-	sourceNamespace = "intermediary"
-	targetNamespace = "named"
-	archiveClassifier = "mojmap"
-	classpath.setFrom((loom as LoomGradleExtension).getMinecraftJars(MappingsNamespace.INTERMEDIARY))
-
-	this.archiveClassifier = "mojmap"
+val remapMojmap = mojmap.registerRemap(tasks.remapJar) {
 	this.destinationDirectory = project.layout.buildDirectory.get().dir("devlibs")
 
 	addNestedDependencies = false // Jars will be included later.
 }
 
-val remapNeoforgeJarToMojmap by tasks.registering(RemapJarTask::class) {
-	this.group = "remapping"
+val remapNeoforgeJarToMojmap = mojmap.registerRemap("remapNeoforgeJarToMojmap") {
 	this.dependsOn(remapNeoforgeJar)
 
 	inputFile.set(remapNeoforgeJar.flatMap { it.archiveFile })
-	customMappings.from(mojmap.mappingsConfiguration())
-	sourceNamespace = "intermediary"
-	targetNamespace = "named"
-	classpath.setFrom((loom as LoomGradleExtension).getMinecraftJars(MappingsNamespace.INTERMEDIARY))
 
 	this.archiveClassifier = "neoforge-mojmap"
 	this.destinationDirectory = project.layout.buildDirectory.get().dir("devlibs/neoforge")
-
-	this.nestedJars.setFrom(this.nestedJars.files.stream().filter {
-		it.name.endsWith("-mojmap.jar")
-	}.toList())
 }
 
 val assembleNeoforgeJar by tasks.registering(AssembleNeoForgeJarTask::class) {
@@ -193,43 +179,30 @@ val assembleNeoforgeJar by tasks.registering(AssembleNeoForgeJarTask::class) {
 	this.archiveClassifier = "mojmap"
 }
 
-val neoforgeSourcesJarTask = tasks.getByName("mojmapSourcesJar", Jar::class) {
+val neoforgeSourcesJar by tasks.registering(Jar::class) {
+	this.from(neoforge.java.sourceDirectories)
+	this.from(neoforge.resources.sourceDirectories)
+	this.archiveClassifier = "sources"
 	this.destinationDirectory = project.layout.buildDirectory.get().dir("devlibs/neoforge")
 }
 
 val remapNeoforgeSourcesJar = tasks.register<RemapSourcesJarTask>("remapNeoforgeSourcesJarToIntermediary") {
 	this.group = "remapping"
-	this.dependsOn(neoforgeSourcesJarTask)
-	this.inputFile.set(neoforgeSourcesJarTask.archiveFile)
+	this.dependsOn(neoforgeSourcesJar)
+	this.inputFile.set(neoforgeSourcesJar.flatMap { it.archiveFile })
 	this.classpath.from(mojmap.sourceSet().compileClasspath)
 	this.archiveClassifier = "neoforge-intermediary-sources"
 	this.destinationDirectory = project.layout.buildDirectory.get().dir("devlibs/neoforge")
 }
 
-val remapSourcesMojmap by tasks.registering(RemapSourcesJarTask::class) {
-	this.group = "remapping"
-	this.dependsOn(tasks.remapSourcesJar)
-
-	inputFile.set(tasks.remapSourcesJar.flatMap { it.archiveFile })
-	customMappings.from(mojmap.mappingsConfiguration())
-	sourceNamespace = "intermediary"
-	targetNamespace = "named"
-	archiveClassifier = "mojmap"
-	classpath.setFrom((loom as LoomGradleExtension).getMinecraftJars(MappingsNamespace.INTERMEDIARY))
-
-	this.archiveClassifier = "mojmap-sources"
+val remapSourcesMojmap = mojmap.registerSourcesRemap(tasks.remapSourcesJar) {
 	this.destinationDirectory = project.layout.buildDirectory.get().dir("devlibs")
 }
 
-val remapNeoforgeSourcesJarToMojmap by tasks.registering(RemapSourcesJarTask::class) {
-	this.group = "remapping"
+val remapNeoforgeSourcesJarToMojmap = mojmap.registerSourcesRemap("remapNeoforgeSourcesJarToMojmap") {
 	this.dependsOn(remapNeoforgeSourcesJar)
 
 	inputFile.set(remapNeoforgeSourcesJar.flatMap { it.archiveFile })
-	customMappings.from(mojmap.mappingsConfiguration())
-	sourceNamespace = "intermediary"
-	targetNamespace = "named"
-	classpath.setFrom((loom as LoomGradleExtension).getMinecraftJars(MappingsNamespace.INTERMEDIARY))
 
 	this.archiveClassifier = "neoforge-mojmap-sources"
 	this.destinationDirectory = project.layout.buildDirectory.get().dir("devlibs/neoforge")
