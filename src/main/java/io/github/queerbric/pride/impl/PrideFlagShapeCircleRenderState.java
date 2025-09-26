@@ -42,20 +42,20 @@ public record PrideFlagShapeCircleRenderState(
 	}
 
 	@Override
-	public void buildVertices(VertexConsumer vertexConsumer, float z) {
-		vertexConsumer.addVertexWith2DPose(this.pose(), this.startX(), this.startY(), z)
+	public void buildVertices(VertexConsumer vertexConsumer) {
+		vertexConsumer.addVertexWith2DPose(this.pose(), this.startX(), this.startY())
 				.color(this.color())
 				.uv(this.centerPos.x(), this.centerPos.y())
 				.light(this.outerRadius, this.innerRadius);
-		vertexConsumer.addVertexWith2DPose(this.pose(), this.startX(), this.endY(), z)
+		vertexConsumer.addVertexWith2DPose(this.pose(), this.startX(), this.endY())
 				.color(this.color())
 				.uv(this.centerPos.x(), this.centerPos.y())
 				.light(this.outerRadius, this.innerRadius);
-		vertexConsumer.addVertexWith2DPose(this.pose(), this.endX(), this.endY(), z)
+		vertexConsumer.addVertexWith2DPose(this.pose(), this.endX(), this.endY())
 				.color(this.color())
 				.uv(this.centerPos.x(), this.centerPos.y())
 				.light(this.outerRadius, this.innerRadius);
-		vertexConsumer.addVertexWith2DPose(this.pose(), this.endX(), this.startY(), z)
+		vertexConsumer.addVertexWith2DPose(this.pose(), this.endX(), this.startY())
 				.color(this.color())
 				.uv(this.centerPos.x(), this.centerPos.y())
 				.light(this.outerRadius, this.innerRadius);

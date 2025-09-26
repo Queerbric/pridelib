@@ -14,7 +14,7 @@
 	"contact": {},
 	"license": "MIT",
 	"icon": "assets/pride/icon.png",
-	"environment": "*",
+	"environment": "client",
 	"entrypoints": {
 		"yumi:client_init": [
 			"io.github.queerbric.pride.impl.PrideClientInitializer"
@@ -25,10 +25,10 @@
 	},
 	"accessWidener": "pride.accesswidener",
 	"depends": {
-		"minecraft": "~1.21.6-",
-		"fabricloader": ">=0.12.12",
-		"yumi_mc_core": ">=1.0.0-alpha.13+1.21.1",
-		"fabric-resource-loader-v0": "*"
+		"minecraft": "~1.21.9-",
+		"fabricloader": ">=0.17.2",
+		"yumi_mc_core": ">=1.0.0-alpha.15+1.21.1",
+		"fabric-resource-loader-v1": "*"
 	},
 	"custom": {
 		"modmenu": {
