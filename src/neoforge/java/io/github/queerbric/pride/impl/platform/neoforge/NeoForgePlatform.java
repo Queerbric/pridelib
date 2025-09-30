@@ -3,29 +3,26 @@ package io.github.queerbric.pride.impl.platform.neoforge;
 import dev.yumi.mc.core.api.ModContainer;
 import io.github.queerbric.pride.PrideLoader;
 import io.github.queerbric.pride.impl.platform.Platform;
-import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
-import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModList;
+import io.github.queerbric.pride.impl.platform.PlatformProvider;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.io.ResourceReloader;
 
-public class NeoForgePlatform implements Platform {
-	private final ModContainer mod;
-	private final IEventBus eventBus;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-	public NeoForgePlatform(ModContainer mod) {
-		this.mod = mod;
+public class NeoForgePlatform implements Platform, PlatformProvider {
+	public static final NeoForgePlatform INSTANCE = new NeoForgePlatform();
+	final Map<Identifier, ResourceReloader> reloaders = new LinkedHashMap<>();
 
-		this.eventBus = ModList.get().getModContainerById(this.mod.id())
-				.orElseThrow(() -> new IllegalStateException(
-						"Could not find NeoForge mod container despite mod being initialized as %s."
-								.formatted(this.mod.id())
-				))
-				.getEventBus();
+	private NeoForgePlatform() {}
+
+	@Override
+	public Platform getPlatform(ModContainer mod) {
+		return this;
 	}
 
 	@Override
 	public void registerReloader(PrideLoader reloader) {
-		this.eventBus.addListener(AddClientReloadListenersEvent.class, event -> {
-			event.addListener(reloader.id(), reloader);
-		});
+		this.reloaders.put(reloader.id(), reloader);
 	}
 }

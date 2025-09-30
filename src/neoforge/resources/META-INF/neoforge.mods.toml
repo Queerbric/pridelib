@@ -21,14 +21,14 @@ file = "META-INF/accesstransformer.cfg"
 [[dependencies.pride]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.21.9,)"
+versionRange = "[1.21.9-rc1,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.pride]]
 modId = "yumi_mc_core"
 type = "required"
-versionRange = "[1.0.0-alpha.15+1.21.1,)"
+versionRange = "[1.0.0-alpha.16+1.21.9,)"
 ordering = "NONE"
 side = "CLIENT"
 
@@ -39,4 +39,4 @@ catalogueImageIcon = "assets/pride/icon.png"
 value = "io.github.queerbric.pride.impl.PrideClientInitializer"
 
 [[modproperties.pride."yumi:entrypoints"."pride:platform_provider"]]
-value = "io.github.queerbric.pride.impl.platform.neoforge.NeoForgePlatformProvider"
+value = "io.github.queerbric.pride.impl.platform.neoforge.NeoForgePlatform::INSTANCE"
