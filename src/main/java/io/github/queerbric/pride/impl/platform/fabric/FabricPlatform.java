@@ -4,8 +4,14 @@ import dev.yumi.mc.core.api.ModContainer;
 import io.github.queerbric.pride.PrideLoader;
 import io.github.queerbric.pride.impl.platform.Platform;
 import io.github.queerbric.pride.impl.platform.PlatformProvider;
-import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.fabricmc.fabric.api.resource.IdentifiableResourceReloadListener;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.io.ResourceManager;
 import net.minecraft.resources.io.ResourceType;
+
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executor;
 
 public class FabricPlatform implements PlatformProvider, Platform {
 	@Override
@@ -15,6 +21,22 @@ public class FabricPlatform implements PlatformProvider, Platform {
 
 	@Override
 	public void registerReloader(PrideLoader reloader) {
-		ResourceLoader.get(ResourceType.CLIENT_RESOURCES).registerReloader(reloader.id(), reloader);
+		ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES)
+				.registerReloadListener(new IdentifiableResourceReloadListener() {
+					@Override
+					public Identifier getFabricId() {
+						return reloader.id();
+					}
+
+					@Override
+					public CompletableFuture<Void> reload(
+							Synchronizer synchronizer,
+							ResourceManager resourceManager,
+							Executor prepareExecutor,
+							Executor applyExecutor
+					) {
+						return reloader.reload(synchronizer, resourceManager, prepareExecutor, applyExecutor);
+					}
+				});
 	}
 }
