@@ -28,7 +28,7 @@ side = "BOTH"
 [[dependencies.pride]]
 modId = "yumi_mc_core"
 type = "required"
-versionRange = "[1.0.0-alpha.13+1.21.1,)"
+versionRange = "[1.0.0-alpha.16+1.21.1,)"
 ordering = "NONE"
 side = "CLIENT"
 
@@ -39,4 +39,4 @@ catalogueImageIcon = "assets/pride/icon.png"
 value = "io.github.queerbric.pride.impl.PrideClientInitializer"
 
 [[modproperties.pride."yumi:entrypoints"."pride:platform_provider"]]
-value = "io.github.queerbric.pride.impl.platform.neoforge.NeoForgePlatformProvider"
+value = "io.github.queerbric.pride.impl.platform.neoforge.NeoForgePlatform::INSTANCE"
