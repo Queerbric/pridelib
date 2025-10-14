@@ -1,10 +1,10 @@
 [versions]
-minecraft = "1.21.9-rc1"
-fabric-loader = "0.17.2"
+minecraft = "25w42a"
+fabric-loader = "0.17.3"
 neoforge-loader = "7.0.11"
 
 # Dependencies
-yumi-mc-foundation = "1.0.0-alpha.15+1.21.1"
+yumi-mc-foundation = "1.0.0-alpha.17+1.21.9"
 
 # Gradle
 gradle-licenser = "2.1.+"
