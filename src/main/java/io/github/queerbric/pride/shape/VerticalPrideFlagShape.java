@@ -5,7 +5,6 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.queerbric.pride.data.PrideData;
 import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.client.gui.GuiGraphics;
-import org.jetbrains.annotations.NotNull;
 
 public record VerticalPrideFlagShape(IntList colors) implements PrideFlagShape {
 	public static final MapCodec<VerticalPrideFlagShape> CODEC = RecordCodecBuilder.mapCodec(
@@ -15,7 +14,7 @@ public record VerticalPrideFlagShape(IntList colors) implements PrideFlagShape {
 	);
 
 	@Override
-	public @NotNull Type type() {
+	public Type type() {
 		return PrideFlagShape.VERTICAL_STRIPES_TYPE;
 	}
 

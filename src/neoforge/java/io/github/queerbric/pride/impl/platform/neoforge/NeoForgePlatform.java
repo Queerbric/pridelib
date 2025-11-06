@@ -5,14 +5,14 @@ import io.github.queerbric.pride.PrideLoader;
 import io.github.queerbric.pride.impl.platform.Platform;
 import io.github.queerbric.pride.impl.platform.PlatformProvider;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.io.ResourceReloader;
+import net.minecraft.server.packs.resources.PreparableReloadListener;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class NeoForgePlatform implements Platform, PlatformProvider {
 	public static final NeoForgePlatform INSTANCE = new NeoForgePlatform();
-	final Map<Identifier, ResourceReloader> reloaders = new LinkedHashMap<>();
+	final Map<Identifier, PreparableReloadListener> reloaders = new LinkedHashMap<>();
 
 	private NeoForgePlatform() {}
 

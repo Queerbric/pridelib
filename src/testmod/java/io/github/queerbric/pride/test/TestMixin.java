@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.network.chat.Text;
+import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -18,7 +18,7 @@ public class TestMixin extends Screen {
 	@Unique
 	private PrideFlag flag;
 
-	protected TestMixin(Text title) {
+	protected TestMixin(Component title) {
 		super(title);
 	}
 
@@ -30,10 +30,10 @@ public class TestMixin extends Screen {
 		this.flag = PrideFlags.getRandomFlag();
 
 		this.addRenderableWidget(
-				new PlainTextButton(0, this.height - 50, 50, 10, Text.literal("Reroll"), button -> this.flag = PrideFlags.getRandomFlag(), this.font)
+				new PlainTextButton(0, this.height - 50, 50, 10, Component.literal("Reroll"), button -> this.flag = PrideFlags.getRandomFlag(), this.font)
 		);
 		this.addRenderableWidget(
-				new PlainTextButton(0, this.height - 40, 50, 10, Text.literal("Reload resources"), button -> this.client.reloadResourcePacks(), this.font)
+				new PlainTextButton(0, this.height - 40, 50, 10, Component.literal("Reload resources"), button -> this.minecraft.reloadResourcePacks(), this.font)
 		);
 	}
 

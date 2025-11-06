@@ -33,11 +33,11 @@ public record PrideFlagShapeArrowRenderState(
 
 	@Override
 	public void buildVertices(VertexConsumer vertexConsumer) {
-		vertexConsumer.addVertexWith2DPose(this.pose(), this.x, this.cy + this.s).color(this.color);
-		vertexConsumer.addVertexWith2DPose(this.pose(), this.x + (this.s * this.advanceRatio), this.cy).color(this.color);
-		vertexConsumer.addVertexWith2DPose(this.pose(), this.x, this.cy - this.s).color(this.color);
+		vertexConsumer.addVertexWith2DPose(this.pose(), this.x, this.cy + this.s).setColor(this.color);
+		vertexConsumer.addVertexWith2DPose(this.pose(), this.x + (this.s * this.advanceRatio), this.cy).setColor(this.color);
+		vertexConsumer.addVertexWith2DPose(this.pose(), this.x, this.cy - this.s).setColor(this.color);
 		// Dirty 4th vertex as GUI only accepts quads.
-		vertexConsumer.addVertexWith2DPose(this.pose(), this.x, this.cy).color(this.color);
+		vertexConsumer.addVertexWith2DPose(this.pose(), this.x, this.cy).setColor(this.color);
 	}
 
 	@Nullable

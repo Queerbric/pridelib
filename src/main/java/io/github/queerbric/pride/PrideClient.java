@@ -37,7 +37,7 @@ public final class PrideClient {
 			.build();
 
 	public static Identifier id(String path) {
-		return Identifier.of(NAMESPACE, path);
+		return Identifier.fromNamespaceAndPath(NAMESPACE, path);
 	}
 
 	public static void init(Platform platform) {

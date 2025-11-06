@@ -6,11 +6,11 @@ import com.mojang.serialization.JsonOps;
 import dev.yumi.mc.core.api.YumiMods;
 import io.github.queerbric.pride.shape.PrideFlagShape;
 import net.minecraft.resources.Identifier;
-import net.minecraft.resources.io.Resource;
-import net.minecraft.resources.io.ResourceManager;
-import net.minecraft.resources.io.SinglePreparationResourceReloader;
+import net.minecraft.server.packs.resources.Resource;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,16 +21,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-public class PrideLoader extends SinglePreparationResourceReloader<List<PrideFlag>> {
-	public static final Identifier ID = Identifier.of("pride", "flags");
+public class PrideLoader extends SimplePreparableReloadListener<List<PrideFlag>> {
+	public static final Identifier ID = Identifier.fromNamespaceAndPath("pride", "flags");
 	private static final Logger LOGGER = LoggerFactory.getLogger("pride");
 	private static final Gson GSON = new Gson();
 
 	static class Config {
-		String[] flags;
+		String @Nullable [] flags;
 	}
 
-	public @NotNull Identifier id() {
+	public Identifier id() {
 		return ID;
 	}
 
@@ -48,9 +48,9 @@ public class PrideLoader extends SinglePreparationResourceReloader<List<PrideFla
 		var flags = new ArrayList<PrideFlag>();
 
 		outer:
-		for (var entry : manager.findResources("flags", path -> path.path().endsWith(".json")).entrySet()) {
+		for (var entry : manager.listResources("flags", path -> path.getPath().endsWith(".json")).entrySet()) {
 			Identifier id = entry.getKey();
-			String[] parts = id.path().split("/");
+			String[] parts = id.getPath().split("/");
 			String name = parts[parts.length - 1];
 			name = name.substring(0, name.length() - 5);
 
@@ -90,7 +90,7 @@ public class PrideLoader extends SinglePreparationResourceReloader<List<PrideFla
 				LOGGER.warn("[pride] Malformed flag data for pride.json config");
 			}
 		} else {
-			var id = Identifier.of("pride", "flags.json");
+			var id = PrideClient.id("flags.json");
 
 			Optional<Resource> resource = manager.getResource(id);
 			if (resource.isPresent()) {

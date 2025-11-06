@@ -9,7 +9,6 @@ import it.unimi.dsi.fastutil.ints.IntList;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3x2f;
 
 public record ArrowPrideFlagShape(
@@ -27,7 +26,7 @@ public record ArrowPrideFlagShape(
 	);
 
 	@Override
-	public @NotNull Type type() {
+	public Type type() {
 		return PrideFlagShape.ARROW_TYPE;
 	}
 

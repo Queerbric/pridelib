@@ -8,7 +8,6 @@ import io.github.queerbric.pride.data.PrideData;
 import io.github.queerbric.pride.impl.PrideFlagShapeCircleRenderState;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.render.TextureSetup;
-import org.jetbrains.annotations.NotNull;
 import org.joml.Matrix3x2f;
 import org.joml.Vector2f;
 
@@ -30,7 +29,7 @@ public record CirclePrideFlagShape(
 	);
 
 	@Override
-	public @NotNull Type type() {
+	public Type type() {
 		return PrideFlagShape.CIRCLE_TYPE;
 	}
 

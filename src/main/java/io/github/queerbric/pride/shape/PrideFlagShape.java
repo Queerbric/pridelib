@@ -9,7 +9,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.Optional;
@@ -34,7 +33,7 @@ public interface PrideFlagShape {
 	Type CIRCLE_TYPE = Type.register(PrideClient.id("circle"), CirclePrideFlagShape.CODEC);
 	Type ARROW_TYPE = Type.register(PrideClient.id("arrow"), ArrowPrideFlagShape.CODEC);
 
-	@NotNull Type type();
+	Type type();
 
 	@Environment(EnvType.CLIENT)
 	void render(GuiGraphics graphics, int x, int y, int width, int height);
@@ -58,8 +57,8 @@ public interface PrideFlagShape {
 		);
 
 		public static Type register(
-				@NotNull Identifier id,
-				@NotNull MapCodec<? extends PrideFlagShape> codec
+				Identifier id,
+				MapCodec<? extends PrideFlagShape> codec
 		) {
 			var type = new Type(id, codec);
 			TYPES.put(id, type);

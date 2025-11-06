@@ -1,5 +1,5 @@
 [versions]
-minecraft = "25w42a"
+minecraft = "25w45a"
 fabric-loader = "0.17.3"
 neoforge-loader = "7.0.11"
 
@@ -7,9 +7,9 @@ neoforge-loader = "7.0.11"
 yumi-mc-foundation = "1.0.0-alpha.17+1.21.9"
 
 # Gradle
-gradle-licenser = "2.1.+"
-gradle-loom = "1.11.+"
-gradle-lambdamcdev = "1.6.+"
+gradle-licenser = "2.2.+"
+gradle-loom = "1.13.+"
+gradle-lambdamcdev = "1.8.+"
 
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
