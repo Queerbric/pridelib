@@ -83,7 +83,7 @@ dependencies {
 	modImplementation(libs.fabric.loader)
 
 	modImplementation(libs.yumi.mc.foundation)
-	modImplementation(fabricApi.module("fabric-resource-loader-v0", project.property("fabric_api_version") as String))
+	modImplementation(fabricApi.module("fabric-resource-loader-v1", project.property("fabric_api_version") as String))
 
 	"neoforgeCompileOnly"(libs.neoforge.loader)
 	"neoforgeImplementation"(sourceSets.main.get().output)
