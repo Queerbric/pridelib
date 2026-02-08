@@ -1,7 +1,7 @@
 # PrideLib
 
-![Java 21](https://img.shields.io/badge/language-Java%2021-9115ff.svg?style=flat-square)
-[![GitHub license](https://img.shields.io/github/license/Queerbric/pridelib?style=flat-square)](https://raw.githubusercontent.com/Queerbric/pridelib/1.19/LICENSE)
+![Java 25](https://img.shields.io/badge/language-Java%2025-9115ff.svg?style=flat-square)
+[![GitHub license](https://img.shields.io/github/license/Queerbric/pridelib?style=flat-square)](https://raw.githubusercontent.com/Queerbric/pridelib/26.1/LICENSE)
 ![Environment: Client](https://img.shields.io/badge/environment-client-1976d2?style=flat-square)
 [![Mod loader: Fabric]][fabric]
 ![Version](https://img.shields.io/github/v/tag/Queerbric/pridelib?label=version&style=flat-square)
@@ -17,8 +17,9 @@ repositories {
 		url = uri("https://maven.gegy.dev")
 	}
 }
+
 dependencies {
-	modImplementation(include("io.github.queerbric:pridelib:${pridelib_version}"))
+	implementation(include("io.github.queerbric:pridelib:${pridelib_version}"))
 }
 ```
 
