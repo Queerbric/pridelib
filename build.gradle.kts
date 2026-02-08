@@ -1,4 +1,3 @@
-import dev.lambdaurora.mcdev.api.MappingVariant
 import dev.lambdaurora.mcdev.task.ConvertAccessWidenerToTransformer
 
 plugins {
@@ -20,8 +19,6 @@ java {
 
 	withSourcesJar()
 }
-
-val mojmap = lambdamcdev.setupMojmapRemapping()
 
 val neoforge: SourceSet by sourceSets.creating {
 	this.compileClasspath += sourceSets.main.get().compileClasspath
@@ -79,20 +76,13 @@ repositories {
 
 dependencies {
 	minecraft(libs.minecraft)
-	mappings(loom.officialMojangMappings())
-	modImplementation(libs.fabric.loader)
+	implementation(libs.fabric.loader)
 
-	modImplementation(libs.yumi.mc.foundation)
-	modImplementation(fabricApi.module("fabric-resource-loader-v1", project.property("fabric_api_version") as String))
+	implementation(libs.yumi.mc.foundation)
+	implementation(fabricApi.module("fabric-resource-loader-v1", project.property("fabric_api_version") as String))
 
 	"neoforgeCompileOnly"(libs.neoforge.loader)
 	"neoforgeImplementation"(sourceSets.main.get().output)
-
-	"mojmapImplementation"(libs.yumi.mc.foundation) {
-		attributes {
-			attribute(MappingVariant.ATTRIBUTE, objects.named(MappingVariant.MOJMAP))
-		}
-	}
 
 	"testmodImplementation"(sourceSets.main.get().output)
 }
@@ -119,46 +109,33 @@ tasks.getByName("processNeoforgeResources") {
 	}
 }
 
-tasks.jar {
-	inputs.property("archivesName", base.archivesName)
-
-	from("LICENSE") {
-		rename { "${it}_${inputs.properties["archivesName"]}" }
-	}
-}
-
 val convertAWtoAT by tasks.registering(ConvertAccessWidenerToTransformer::class) {
 	this.group = "generation"
 	this.input = project.file("src/main/resources/pride.accesswidener")
 	this.output = project.layout.buildDirectory.get().file("generated/accesstransformer.cfg")
 }
 
-val mojmapJar by tasks.registering(Jar::class) {
-	this.group = "build"
-	this.dependsOn(tasks.jar, convertAWtoAT)
-	this.from(zipTree(tasks.jar.flatMap { it.archiveFile }))
-	this.from(neoforge.output)
-	this.from(convertAWtoAT) {
+tasks.jar {
+	dependsOn(convertAWtoAT)
+
+	inputs.property("archivesName", base.archivesName)
+
+	from("LICENSE") {
+		rename { "${it}_${inputs.properties["archivesName"]}" }
+	}
+	from(neoforge.output)
+	from(convertAWtoAT) {
 		into("META-INF")
 	}
-	this.archiveClassifier = "mojmap"
 }
 
-val mojmapSourcesJar by tasks.registering(Jar::class) {
-	this.group = "build"
-	this.dependsOn(tasks["sourcesJar"], convertAWtoAT)
-	this.from(zipTree(tasks.getByName("sourcesJar", Jar::class).archiveFile))
-	this.from(neoforge.java.sourceDirectories)
-	this.from(neoforge.resources.sourceDirectories)
-	this.from(convertAWtoAT) {
+tasks.getByName("sourcesJar", Jar::class) {
+	from(neoforge.java.sourceDirectories)
+	from(neoforge.resources.sourceDirectories)
+	from(convertAWtoAT) {
 		into("META-INF")
 	}
-	this.archiveClassifier = "mojmap-sources"
 }
-
-mojmap.setJarArtifact(mojmapJar)
-mojmap.setSourcesArtifact(mojmapSourcesJar)
-tasks.build.get().dependsOn(mojmapJar, mojmapSourcesJar)
 
 // configure the maven publication
 publishing {

@@ -17,6 +17,6 @@ public class FabricPlatform implements PlatformProvider, Platform {
 
 	@Override
 	public void registerReloader(PrideLoader reloader) {
-		ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(reloader.id(), reloader);
+		ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(reloader.id(), reloader);
 	}
 }

@@ -1,14 +1,14 @@
 [versions]
-minecraft = "1.21.11-rc2"
-fabric-loader = "0.18.1"
+minecraft = "26.1-snapshot-6"
+fabric-loader = "0.18.4"
 neoforge-loader = "10.0.34"
 
 # Dependencies
-yumi-mc-foundation = "1.0.0-beta.1+1.21.11"
+yumi-mc-foundation = "1.0.0-beta.2+26.1-snapshot-6"
 
 # Gradle
 gradle-licenser = "2.2.+"
-gradle-loom = "1.14.+"
+gradle-loom = "1.15.+"
 gradle-lambdamcdev = "1.8.+"
 
 [libraries]
@@ -24,5 +24,5 @@ gradle-loom = { module = "net.fabricmc:fabric-loom", version.ref = "gradle-loom"
 gradle-lambdamcdev = { module = "dev.lambdaurora.mcdev:dev.lambdaurora.mcdev.gradle.plugin", version.ref = "gradle-lambdamcdev" }
 
 [plugins]
-loom = { id = "fabric-loom", version.ref = "gradle-loom" }
+loom = { id = "net.fabricmc.fabric-loom", version.ref = "gradle-loom" }
 lambdamcdev = { id = "dev.lambdaurora.mcdev", version.ref = "gradle-lambdamcdev" }
