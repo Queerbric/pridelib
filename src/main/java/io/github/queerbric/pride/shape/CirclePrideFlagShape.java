@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.queerbric.pride.PrideClient;
 import io.github.queerbric.pride.data.PrideData;
 import io.github.queerbric.pride.impl.PrideFlagShapeCircleRenderState;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
 import org.joml.Matrix3x2f;
 import org.joml.Vector2f;
@@ -34,14 +34,14 @@ public record CirclePrideFlagShape(
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int x, int y, int width, int height) {
-		this.background.render(graphics, x, y, width, height);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
+		this.background.extractRenderState(graphics, x, y, width, height);
 
 		float radius = Math.min(width, height) * this.radiusRatio;
 		float cx = x + (width / 2.f);
 		float cy = y + (height / 2.f);
 
-		graphics.guiRenderState.submitGuiElement(
+		graphics.guiRenderState.addGuiElement(
 				new PrideFlagShapeCircleRenderState(
 						PrideClient.FLAG_SHAPE_CIRCLE_PIPELINE, TextureSetup.noTexture(),
 						new Matrix3x2f(graphics.pose()),

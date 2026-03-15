@@ -4,7 +4,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.queerbric.pride.data.PrideData;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 public record VerticalPrideFlagShape(IntList colors) implements PrideFlagShape {
 	public static final MapCodec<VerticalPrideFlagShape> CODEC = RecordCodecBuilder.mapCodec(
@@ -19,7 +19,7 @@ public record VerticalPrideFlagShape(IntList colors) implements PrideFlagShape {
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int x, int y, int width, int height) {
+	public void extractRenderState(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
 		float currentX = x;
 		float sw = (float) width / this.colors.size();
 		for (int i = 0; i < this.colors.size(); i++) {

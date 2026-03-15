@@ -2,7 +2,7 @@ package io.github.queerbric.pride.test;
 
 import io.github.queerbric.pride.PrideFlag;
 import io.github.queerbric.pride.PrideFlags;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.PlainTextButton;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
@@ -38,10 +38,10 @@ public class TestMixin extends Screen {
 	}
 
 	@Inject(
-			method = "render",
+			method = "extractRenderState",
 			at = @At("RETURN")
 	)
-	private void onRender(GuiGraphics graphics, int mouseX, int mouseY, float tickDelta, CallbackInfo ci) {
-		this.flag.render(graphics, 0, 0, 128, 64);
+	private void onRender(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float tickDelta, CallbackInfo ci) {
+		this.flag.extractRenderState(graphics, 0, 0, 128, 64);
 	}
 }

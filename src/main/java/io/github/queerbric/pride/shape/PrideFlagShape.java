@@ -7,7 +7,7 @@ import io.github.queerbric.pride.PrideClient;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 
 import java.util.Map;
@@ -36,7 +36,7 @@ public interface PrideFlagShape {
 	Type type();
 
 	@Environment(EnvType.CLIENT)
-	void render(GuiGraphics graphics, int x, int y, int width, int height);
+	void extractRenderState(GuiGraphicsExtractor graphics, int x, int y, int width, int height);
 
 	/**
 	 * Represents a type of pride flag shape.

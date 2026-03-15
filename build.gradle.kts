@@ -65,7 +65,7 @@ repositories {
 	}
 	maven {
 		name = "NeoForge"
-		url = uri("https://maven.neoforged.net/")
+		url = uri("https://maven.neoforged.net/releases/")
 		content {
 			includeGroupByRegex("net\\.neoforged.*")
 			includeGroupByRegex("cpw\\.mods.*")

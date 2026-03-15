@@ -3,7 +3,7 @@ package io.github.queerbric.pride;
 import io.github.queerbric.pride.shape.PrideFlagShape;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 /**
  * Represents a pride flag.
@@ -35,7 +35,7 @@ public class PrideFlag {
 	 * @param height the render height of the flag
 	 */
 	@Environment(EnvType.CLIENT)
-	public void render(GuiGraphics graphics, int x, int y, int width, int height) {
-		this.shape.render(graphics, x, y, width, height);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
+		this.shape.extractRenderState(graphics, x, y, width, height);
 	}
 }

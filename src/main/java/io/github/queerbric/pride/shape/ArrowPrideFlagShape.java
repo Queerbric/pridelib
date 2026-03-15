@@ -6,7 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import io.github.queerbric.pride.data.PrideData;
 import io.github.queerbric.pride.impl.PrideFlagShapeArrowRenderState;
 import it.unimi.dsi.fastutil.ints.IntList;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
 import org.joml.Matrix3x2f;
@@ -31,15 +31,15 @@ public record ArrowPrideFlagShape(
 	}
 
 	@Override
-	public void render(GuiGraphics graphics, int x, int y, int width, int height) {
-		this.background.render(graphics, x, y, width, height);
+	public void extractRenderState(GuiGraphicsExtractor graphics, int x, int y, int width, int height) {
+		this.background.extractRenderState(graphics, x, y, width, height);
 
 		float hm = Math.min(width, height) / 2.f;
 		float cy = y + (height / 2.f);
 
 		float s = hm;
 		for (int color : this.colors) {
-			graphics.guiRenderState.submitGuiElement(
+			graphics.guiRenderState.addGuiElement(
 					new PrideFlagShapeArrowRenderState(
 							RenderPipelines.GUI, TextureSetup.noTexture(),
 							new Matrix3x2f(graphics.pose()),
