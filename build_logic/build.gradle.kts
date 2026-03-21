@@ -5,7 +5,7 @@ plugins {
 	`kotlin-dsl`
 }
 
-val javaVersion = 21
+val javaVersion = 25
 
 repositories {
 	gradlePluginPortal()

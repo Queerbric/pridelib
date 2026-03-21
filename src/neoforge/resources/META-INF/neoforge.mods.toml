@@ -21,7 +21,7 @@ file = "META-INF/accesstransformer.cfg"
 [[dependencies.pride]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.1-snapshot-6,)"
+versionRange = "[26.1,)"
 ordering = "NONE"
 side = "BOTH"
 
