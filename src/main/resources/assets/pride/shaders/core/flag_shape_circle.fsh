@@ -1,4 +1,6 @@
-#version 150
+#version 330
+
+#moj_import <minecraft:dynamictransforms.glsl>
 
 in vec2 pos;
 in vec2 center_pos;
@@ -18,5 +20,5 @@ void main() {
 	float inner_factor = smoothstep(inner_radius - aa, inner_radius, distance);
 	float factor = outer_factor * inner_factor;
 
-	fragColor = vec4(vertex_color.rgb, factor);
+	fragColor = vec4(vertex_color.rgb, factor) * ColorModulator;
 }

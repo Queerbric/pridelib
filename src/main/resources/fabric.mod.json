@@ -25,9 +25,9 @@
 	},
 	"accessWidener": "pride.accesswidener",
 	"depends": {
-		"minecraft": "~26.1-",
-		"fabricloader": ">=0.18.4",
-		"yumi_mc_core": ">=1.0.0-beta.2+26.1",
+		"minecraft": "~26.2-",
+		"fabricloader": ">=0.19.2",
+		"yumi_mc_core": ">=1.1.0+26.2",
 		"fabric-resource-loader-v1": "*"
 	},
 	"custom": {

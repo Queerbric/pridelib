@@ -21,14 +21,14 @@ file = "META-INF/accesstransformer.cfg"
 [[dependencies.pride]]
 modId = "minecraft"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.2,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.pride]]
 modId = "yumi_mc_core"
 type = "required"
-versionRange = "[1.0.0-beta.2+26.1,)"
+versionRange = "[1.1.0+26.2,)"
 ordering = "NONE"
 side = "CLIENT"
 

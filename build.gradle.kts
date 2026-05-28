@@ -42,18 +42,6 @@ loom {
 	}
 }
 
-afterEvaluate {
-	val shims: SourceSet by sourceSets.creating {
-		this.compileClasspath += configurations["minecraftNamedCompile"]
-	}
-
-	dependencies {
-		"shimsCompileOnly"(libs.fabric.loader) // Due to MC classes referring to EnvType.
-		"shimsCompileOnly"(libs.neoforge.loader)
-		"neoforgeCompileOnly"(shims.output)
-	}
-}
-
 repositories {
 	maven {
 		name = "Gegy"
@@ -82,6 +70,7 @@ dependencies {
 	implementation(fabricApi.module("fabric-resource-loader-v1", project.property("fabric_api_version") as String))
 
 	"neoforgeCompileOnly"(libs.neoforge.loader)
+	"neoforgeCompileOnly"(variantOf(libs.neoforge.api) { classifier("universal") })
 	"neoforgeImplementation"(sourceSets.main.get().output)
 
 	"testmodImplementation"(sourceSets.main.get().output)
