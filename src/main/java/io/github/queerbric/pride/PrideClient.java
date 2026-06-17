@@ -26,7 +26,7 @@ public final class PrideClient {
 			.withLocation(id("flag_shape/circle"))
 			.withVertexShader(id("core/flag_shape_circle"))
 			.withFragmentShader(id("core/flag_shape_circle"))
-			.withDepthStencilState(new DepthStencilState(CompareOp.LESS_THAN_OR_EQUAL, true))
+			.withDepthStencilState(new DepthStencilState(CompareOp.GREATER_THAN_OR_EQUAL, true))
 			.withVertexBinding(0, DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP)
 			.build();
 
