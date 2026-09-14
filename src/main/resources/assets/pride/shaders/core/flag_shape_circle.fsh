@@ -1,13 +1,14 @@
 #version 330
+#extension GL_ARB_separate_shader_objects : require
 
-#moj_import <minecraft:dynamictransforms.glsl>
+#include <minecraft:dynamictransforms.glsl>
 
-in vec2 pos;
-in vec2 center_pos;
-flat in ivec2 radius;
-in vec4 vertex_color;
+layout (location = 0) in vec2 pos;
+layout (location = 1) in vec2 center_pos;
+layout (location = 2) flat in ivec2 radius;
+layout (location = 3) in vec4 vertex_color;
 
-out vec4 fragColor;
+layout (location = 0) out vec4 fragColor;
 
 void main() {
 	float outer_radius = radius.x;
